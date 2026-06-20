@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Confirmed — Elite Members</title>
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .success-wrap { max-width: 420px; margin: 0 auto; padding: 40px 24px 100px; text-align: center; }
+    .success-icon {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px; font-size: 40px; color: #fff;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+    @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .success-title { font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+    .success-sub { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 28px; }
+    .ref-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; margin-bottom: 28px; font-size: 13px; color: var(--text-muted); }
+    .ref-box strong { color: var(--accent); font-size: 14px; display: block; margin-top: 4px; }
+    .benefits-list { background: var(--surface); border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 28px; box-shadow: 0 2px 12px var(--shadow); }
+    .benefits-list h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+    .benefit-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 14px; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+    .benefit-item:last-child { border-bottom: none; }
+    .benefit-item i { color: #10b981; width: 18px; }
+    .go-btn {
+      display: block; width: 100%; padding: 15px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff; border: none; border-radius: 25px;
+      font-size: 16px; font-weight: 800; text-decoration: none;
+      cursor: pointer; box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+    }
+    .share-btn {
+      display: block; width: 100%; padding: 13px; margin-top: 10px;
+      background: transparent; border: 2px solid var(--accent);
+      color: var(--accent); border-radius: 25px; font-size: 15px; font-weight: 700; cursor: pointer;
+    }
+    .confetti { position: fixed; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 9999; }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <img src="https://img.icons8.com/color/48/crown.png" class="nav-logo" style="margin:auto;" />
+  </header>
+
+  <div class="success-wrap">
+    <div class="success-icon">✓</div>
+    <h1 class="success-title">Welcome to Elite! 🎉</h1>
+    <p class="success-sub">Your payment was successful. You now have full access to Elite Members. Time to level up.</p>
+
+    <div class="ref-box">
+      Order Reference
+      <strong id="refCode">Loading...</strong>
+    </div>
+
+    <div class="benefits-list">
+      <h4>👑 Your Elite Access Includes:</h4>
+      <div class="benefit-item"><i class="fa fa-check-circle"></i> Unlimited posts & content creation</div>
+      <div class="benefit-item"><i class="fa fa-check-circle"></i> Full Creator Lab access</div>
+      <div class="benefit-item"><i class="fa fa-check-circle"></i> AI-powered tools & recommendations</div>
+      <div class="benefit-item"><i class="fa fa-check-circle"></i> Analytics dashboard</div>
+      <div class="benefit-item"><i class="fa fa-check-circle"></i> Elite badge on your profile</div>
+      <div class="benefit-item"><i class="fa fa-check-circle"></i> Priority community support</div>
+    </div>
+
+    <a href="../index.html" class="go-btn">🚀 Go to Elite Members</a>
+    <button class="share-btn" onclick="shareMembership()">📢 Share the News</button>
+  </div>
+
+  <script>
+    // Show reference from URL
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref') || 'EM-XXXXXXXX';
+    document.getElementById('refCode').textContent = ref;
+
+    // Simple confetti
+    function launchConfetti() {
+      const colors = ['#f59e0b','#7c3aed','#2d2d8e','#10b981','#ef4444'];
+      for (let i = 0; i < 60; i++) {
+        const el = document.createElement('div');
+        el.style.cssText = `
+          position:fixed; width:8px; height:8px; border-radius:50%;
+          background:${colors[i % colors.length]};
+          top:-10px; left:${Math.random() * 100}vw;
+          animation: fall ${1.5 + Math.random()}s ease forwards;
+          animation-delay:${Math.random() * 0.8}s;
+        `;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 3000);
+      }
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `@keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }`;
+    document.head.appendChild(style);
+    launchConfetti();
+
+    function shareMembership() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'I just joined Elite Members! 👑',
+          text: 'Just became an Elite Member on the most exciting social platform for traders & entrepreneurs. Join me! 🚀',
+          url: 'https://asiimwe3.github.io/elite-members'
+        });
+      } else {
+        navigator.clipboard.writeText('Just joined Elite Members! 👑 https://asiimwe3.github.io/elite-members');
+        alert('Link copied! Share it with your network 🚀');
+      }
+    }
+  </script>
+</body>
+</html>
