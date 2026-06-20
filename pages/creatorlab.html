@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creator Lab — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .lab-wrap { max-width: 480px; margin: 0 auto; padding: 12px 12px 100px; }
+
+    .lab-hero { background: linear-gradient(135deg, #1a1a3e, #2d2d8e, #7c3aed); border-radius: 20px; padding: 24px; margin-bottom: 18px; color: #fff; position: relative; overflow: hidden; }
+    .lab-hero-pattern { position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 10px); }
+    .lab-hero-content { position: relative; }
+    .lab-hero h2 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+    .lab-hero p { font-size: 13px; opacity: 0.8; line-height: 1.6; margin-bottom: 16px; }
+    .lab-hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .lhstat { text-align: center; background: rgba(255,255,255,0.1); border-radius: 12px; padding: 10px; }
+    .lhstat-num { font-size: 20px; font-weight: 800; }
+    .lhstat-lbl { font-size: 10px; opacity: 0.7; margin-top: 2px; }
+
+    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .tool-card { background: var(--surface); border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px var(--shadow); border: 1px solid var(--border); cursor: pointer; transition: transform 0.2s; }
+    .tool-card:hover { transform: scale(1.02); }
+    .tool-icon { font-size: 32px; margin-bottom: 10px; }
+    .tool-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .tool-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+    .tool-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 8px; }
+    .tool-badge.free { background: rgba(16,185,129,0.15); color: #10b981; }
+    .tool-badge.pro { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+    .earnings-card { background: var(--surface); border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px var(--shadow); border: 1px solid var(--border); margin-bottom: 16px; }
+    .earnings-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; display: flex; justify-content: space-between; }
+    .earnings-total { font-size: 32px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+    .earnings-sub { font-size: 13px; color: #10b981; margin-bottom: 16px; }
+    .earnings-breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .earn-item { text-align: center; background: var(--bg); border-radius: 12px; padding: 10px; }
+    .earn-num { font-size: 16px; font-weight: 800; color: var(--text); }
+    .earn-lbl { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+    .withdraw-btn { width: 100%; margin-top: 14px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border: none; padding: 13px; border-radius: 25px; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+    .checklist { background: var(--surface); border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px var(--shadow); border: 1px solid var(--border); }
+    .checklist-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+    .check-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .check-item:last-child { border-bottom: none; }
+    .check-circle { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+    .check-circle.done { background: #10b981; color: #fff; }
+    .check-circle.todo { background: var(--bg); border: 2px solid var(--border); color: var(--text-muted); }
+    .check-text { font-size: 13px; font-weight: 600; }
+    .check-text.done { color: var(--text-muted); text-decoration: line-through; }
+    .check-text.todo { color: var(--text); }
+    .check-action { margin-left: auto; font-size: 12px; color: var(--accent); font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <button class="menu-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+    <span style="font-size:16px;font-weight:800;color:var(--text);">Creator Lab 🧪</span>
+    <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+  </header>
+
+  <div class="lab-wrap">
+
+    <!-- Hero -->
+    <div class="lab-hero animate-fade">
+      <div class="lab-hero-pattern"></div>
+      <div class="lab-hero-content">
+        <h2>Your Creator Hub 🚀</h2>
+        <p>Build, monetize, and grow your personal brand on Elite Members. Tools for traders, teachers & entrepreneurs.</p>
+        <div class="lab-hero-stats">
+          <div class="lhstat"><div class="lhstat-num">48</div><div class="lhstat-lbl">Posts</div></div>
+          <div class="lhstat"><div class="lhstat-num">3.2K</div><div class="lhstat-lbl">Followers</div></div>
+          <div class="lhstat"><div class="lhstat-num">$820</div><div class="lhstat-lbl">Earned</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Earnings -->
+    <div class="earnings-card animate-fade">
+      <div class="earnings-title">
+        <span>💰 Earnings</span>
+        <span style="font-size:13px;color:var(--text-muted);font-weight:500;">This Month</span>
+      </div>
+      <div class="earnings-total">$820.00</div>
+      <div class="earnings-sub">+$320 from last month ↑</div>
+      <div class="earnings-breakdown">
+        <div class="earn-item"><div class="earn-num">$400</div><div class="earn-lbl">Courses</div></div>
+        <div class="earn-item"><div class="earn-num">$280</div><div class="earn-lbl">Signals</div></div>
+        <div class="earn-item"><div class="earn-num">$140</div><div class="earn-lbl">Tips</div></div>
+      </div>
+      <button class="withdraw-btn">Withdraw to Mobile Money →</button>
+    </div>
+
+    <!-- Creator Tools -->
+    <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:12px;" class="animate-fade">🛠 Creator Tools</div>
+    <div class="tools-grid animate-fade">
+      <div class="tool-card">
+        <div class="tool-icon">📝</div>
+        <div class="tool-name">Post Creator</div>
+        <div class="tool-desc">Write, schedule, and publish posts with rich media.</div>
+        <span class="tool-badge free">Free</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📡</div>
+        <div class="tool-name">Signal Publisher</div>
+        <div class="tool-desc">Send live trading signals to your followers instantly.</div>
+        <span class="tool-badge free">Free</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🎓</div>
+        <div class="tool-name">Course Builder</div>
+        <div class="tool-desc">Create and sell online courses to your community.</div>
+        <span class="tool-badge pro">Elite+</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">📊</div>
+        <div class="tool-name">Analytics Pro</div>
+        <div class="tool-desc">Deep insights on your content performance and earnings.</div>
+        <span class="tool-badge pro">Elite+</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🏪</div>
+        <div class="tool-name">Shop Setup</div>
+        <div class="tool-desc">List your products and services on the marketplace.</div>
+        <span class="tool-badge free">Free</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">🤖</div>
+        <div class="tool-name">AI Content</div>
+        <div class="tool-desc">AI-powered captions, post ideas, and market analysis.</div>
+        <span class="tool-badge pro">Business</span>
+      </div>
+    </div>
+
+    <!-- Setup Checklist -->
+    <div class="checklist animate-fade">
+      <div class="checklist-title">✅ Creator Setup Checklist</div>
+      <div class="check-item">
+        <div class="check-circle done"><i class="fa fa-check"></i></div>
+        <span class="check-text done">Complete your profile</span>
+      </div>
+      <div class="check-item">
+        <div class="check-circle done"><i class="fa fa-check"></i></div>
+        <span class="check-text done">Make your first post</span>
+      </div>
+      <div class="check-item">
+        <div class="check-circle done"><i class="fa fa-check"></i></div>
+        <span class="check-text done">Join a channel</span>
+      </div>
+      <div class="check-item">
+        <div class="check-circle todo">4</div>
+        <span class="check-text todo">List a product on Marketplace</span>
+        <span class="check-action">Do it →</span>
+      </div>
+      <div class="check-item">
+        <div class="check-circle todo">5</div>
+        <span class="check-text todo">Get 100 followers</span>
+        <span class="check-action">Invite →</span>
+      </div>
+      <div class="check-item">
+        <div class="check-circle todo">6</div>
+        <span class="check-text todo">Set up Mobile Money payout</span>
+        <span class="check-action">Setup →</span>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+</body>
+</html>
