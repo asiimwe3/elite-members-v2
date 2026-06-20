@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .checkout-wrap { max-width: 480px; margin: 0 auto; padding: 20px 16px 100px; }
+    .checkout-header { text-align: center; margin-bottom: 24px; }
+    .checkout-header img { width: 48px; margin-bottom: 10px; }
+    .checkout-header h2 { font-size: 22px; font-weight: 800; color: var(--text); }
+    .checkout-header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+
+    .plan-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+    .plan-opt {
+      flex: 1; background: var(--surface); border: 2px solid var(--border);
+      border-radius: 14px; padding: 14px 10px; text-align: center; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .plan-opt.selected { border-color: var(--accent); background: rgba(124,58,237,0.06); }
+    .plan-opt .opt-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .plan-opt .opt-price { font-size: 18px; font-weight: 800; color: var(--accent); margin-top: 4px; }
+    .plan-opt .opt-period { font-size: 11px; color: var(--text-muted); }
+
+    .form-card { background: var(--surface); border-radius: 16px; padding: 20px; box-shadow: 0 2px 12px var(--shadow); margin-bottom: 16px; }
+    .form-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { font-size: 12px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 6px; }
+    .form-group input {
+      width: 100%; padding: 12px 14px; border-radius: 10px;
+      border: 1.5px solid var(--border); background: var(--bg);
+      color: var(--text); font-size: 14px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus { border-color: var(--accent); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .order-summary { background: linear-gradient(135deg, rgba(45,45,142,0.05), rgba(124,58,237,0.08)); border: 1px solid rgba(124,58,237,0.2); border-radius: 14px; padding: 16px; margin-bottom: 16px; }
+    .order-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); padding: 5px 0; }
+    .order-row.total { font-size: 16px; font-weight: 700; color: var(--text); border-top: 1px solid var(--border); padding-top: 10px; margin-top: 6px; }
+    .order-row.total span:last-child { color: var(--accent); }
+
+    .pay-btn {
+      width: 100%; padding: 16px; border-radius: 25px; border: none;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff; font-size: 16px; font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: transform 0.2s; box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+    }
+    .pay-btn:hover { transform: scale(1.02); }
+    .pay-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .security-note { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .pesapal-badge { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; font-size: 12px; color: var(--text-muted); }
+    .pesapal-badge strong { color: #e91e63; font-size: 14px; }
+
+    .error-msg { background: #fee2e2; border: 1px solid #ef4444; color: #dc2626; padding: 12px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 14px; display: none; }
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <!-- Top Nav -->
+  <header class="topnav">
+    <a href="../index.html" style="background:var(--primary);color:#fff;border:none;width:38px;height:38px;border-radius:10px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none;">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <img src="https://img.icons8.com/color/48/crown.png" class="nav-logo" />
+    <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+  </header>
+
+  <div class="checkout-wrap">
+    <div class="checkout-header">
+      <img src="https://img.icons8.com/color/96/crown.png" />
+      <h2>Join Elite Members</h2>
+      <p>Secure payment powered by Pesapal</p>
+    </div>
+
+    <!-- Plan Selector -->
+    <div class="plan-selector">
+      <div class="plan-opt" id="opt-elite" onclick="selectPlan('elite')">
+        <div class="opt-name">⚡ Elite</div>
+        <div class="opt-price">$9</div>
+        <div class="opt-period">/month</div>
+      </div>
+      <div class="plan-opt selected" id="opt-business" onclick="selectPlan('business')">
+        <div class="opt-name">🏆 Business</div>
+        <div class="opt-price">$29</div>
+        <div class="opt-period">/month</div>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-msg" id="errorMsg"></div>
+
+    <!-- Personal Details -->
+    <div class="form-card">
+      <div class="form-title"><i class="fa fa-user" style="color:var(--accent)"></i> Your Details</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="firstName" placeholder="e.g. Derick" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="lastName" placeholder="e.g. Asiimwe" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Phone Number (with country code)</label>
+        <input type="tel" id="phone" placeholder="+256700000000" />
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <div class="order-row"><span>Plan</span><span id="summaryPlan">Business Plan</span></div>
+      <div class="order-row"><span>Billing</span><span>Monthly</span></div>
+      <div class="order-row"><span>Access</span><span>Instant</span></div>
+      <div class="order-row total"><span>Total Due</span><span id="summaryPrice">$29.00</span></div>
+    </div>
+
+    <!-- Pay Button -->
+    <button class="pay-btn" id="payBtn" onclick="initiatePayment()">
+      <i class="fa fa-lock"></i> Pay Securely with Pesapal
+    </button>
+
+    <div class="pesapal-badge">
+      <i class="fa fa-shield-alt" style="color:#10b981"></i>
+      Powered by <strong>PesaPal</strong> — MTN, Airtel, Visa, Mastercard
+    </div>
+
+    <div class="security-note">
+      <i class="fa fa-lock"></i> 256-bit SSL encrypted. Your data is safe.
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <script>
+    const BACKEND = 'https://derick-ai-775511bf.base44.app/functions/pesapalPay';
+    let selectedPlan = 'business';
+    let customAmount = null;
+    const planData = {
+      elite: { name: 'Elite Plan', price: '$15.00', amount: 15 },
+      business: { name: 'Business Plan', price: '$49.00', amount: 49 },
+      free: { name: 'Free Plan', price: '$0.00', amount: 0 }
+    };
+
+    function selectPlan(plan) {
+      selectedPlan = plan;
+      document.querySelectorAll('.plan-opt').forEach(el => el.classList.remove('selected'));
+      const el = document.getElementById(`opt-${plan}`);
+      if (el) el.classList.add('selected');
+      const pd = planData[plan] || planData['business'];
+      document.getElementById('summaryPlan').textContent = pd.name;
+      document.getElementById('summaryPrice').textContent = pd.price;
+    }
+
+    // Read URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const planParam = urlParams.get('plan');
+    const amountParam = urlParams.get('amount');
+    const descParam = urlParams.get('desc');
+
+    if (planParam === 'custom' && amountParam) {
+      // Custom product/event purchase
+      customAmount = parseFloat(amountParam);
+      const descText = descParam ? decodeURIComponent(descParam) : 'Custom Purchase';
+      document.getElementById('summaryPlan').textContent = descText;
+      document.getElementById('summaryPrice').textContent = '$' + customAmount.toFixed(2);
+      selectedPlan = 'custom';
+    } else if (planParam && planData[planParam]) {
+      selectPlan(planParam);
+    } else {
+      selectPlan('business');
+    }
+
+    async function initiatePayment() {
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+      const payBtn = document.getElementById('payBtn');
+
+      errorMsg.style.display = 'none';
+
+      if (!email && !phone) {
+        errorMsg.textContent = 'Please enter your email or phone number.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      payBtn.disabled = true;
+      payBtn.innerHTML = '<div class="spinner"></div> Processing...';
+
+      try {
+        const res = await fetch(BACKEND, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'initiate',
+            plan: selectedPlan,
+            amount: customAmount || undefined,
+            description: descParam ? decodeURIComponent(descParam) : undefined,
+            email, phone, first_name: firstName, last_name: lastName
+          })
+        });
+        const data = await res.json();
+        if (data.redirect_url) {
+          window.location.href = data.redirect_url;
+        } else {
+          throw new Error(data.error || 'Payment initiation failed');
+        }
+      } catch (err) {
+        errorMsg.textContent = err.message;
+        errorMsg.style.display = 'block';
+        payBtn.disabled = false;
+        payBtn.innerHTML = '<i class="fa fa-lock"></i> Pay Securely with Pesapal';
+      }
+    }
+  </script>
+</body>
+</html>
