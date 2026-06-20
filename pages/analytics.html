@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .analytics-wrap { max-width: 480px; margin: 0 auto; padding: 12px 12px 100px; }
+
+    .period-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+    .period-tab { flex: 1; padding: 8px; border-radius: 12px; font-size: 12px; font-weight: 700; text-align: center; border: 1.5px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; }
+    .period-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .kpi-card { background: var(--surface); border-radius: 16px; padding: 16px; border: 1px solid var(--border); box-shadow: 0 2px 8px var(--shadow); }
+    .kpi-icon { font-size: 22px; margin-bottom: 8px; }
+    .kpi-num { font-size: 26px; font-weight: 900; color: var(--text); line-height: 1; margin-bottom: 4px; }
+    .kpi-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+    .kpi-change { font-size: 12px; font-weight: 700; margin-top: 4px; }
+    .kpi-change.up { color: #10b981; }
+    .kpi-change.down { color: #ef4444; }
+
+    .chart-card { background: var(--surface); border-radius: 16px; padding: 16px; border: 1px solid var(--border); box-shadow: 0 2px 8px var(--shadow); margin-bottom: 14px; }
+    .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .chart-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .chart-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; background: rgba(16,185,129,0.12); color: #10b981; }
+
+    .bar-chart { display: flex; align-items: flex-end; gap: 5px; height: 80px; margin-bottom: 8px; }
+    .bar { flex: 1; border-radius: 5px 5px 0 0; transition: opacity 0.2s; cursor: pointer; }
+    .bar:hover { opacity: 0.75; }
+    .bar-labels { display: flex; gap: 5px; }
+    .bar-lbl { flex: 1; text-align: center; font-size: 9px; color: var(--text-muted); }
+
+    .line-chart { position: relative; height: 80px; margin-bottom: 8px; }
+    .line-svg { width: 100%; height: 100%; }
+
+    .top-posts { }
+    .top-post-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .top-post-item:last-child { border-bottom: none; }
+    .top-post-rank { font-size: 16px; font-weight: 900; color: var(--text-muted); width: 22px; flex-shrink: 0; }
+    .top-post-info { flex: 1; }
+    .top-post-text { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+    .top-post-meta { font-size: 11px; color: var(--text-muted); }
+    .top-post-views { font-size: 13px; font-weight: 700; color: var(--accent); }
+
+    .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .audience-item { }
+    .audience-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+    .audience-bar-wrap { background: var(--bg); border-radius: 10px; height: 8px; overflow: hidden; }
+    .audience-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--accent)); }
+
+    .earnings-card { background: linear-gradient(135deg, #1a1a3e, #2d2d8e); border-radius: 16px; padding: 18px; color: #fff; margin-bottom: 14px; }
+    .earn-total { font-size: 36px; font-weight: 900; margin-bottom: 4px; }
+    .earn-sub { font-size: 13px; opacity: 0.7; margin-bottom: 16px; }
+    .earn-breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .earn-item { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+    .earn-num { font-size: 16px; font-weight: 800; }
+    .earn-lbl { font-size: 10px; opacity: 0.7; margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <button class="menu-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+    <span style="font-size:16px;font-weight:800;color:var(--text);">Analytics 📊</span>
+    <div style="display:flex;gap:8px;">
+      <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+      <button class="icon-btn"><i class="fa fa-download"></i></button>
+    </div>
+  </header>
+
+  <div class="analytics-wrap">
+
+    <!-- Period -->
+    <div class="period-tabs animate-fade">
+      <div class="period-tab active" onclick="setPeriod(this)">7D</div>
+      <div class="period-tab" onclick="setPeriod(this)">30D</div>
+      <div class="period-tab" onclick="setPeriod(this)">3M</div>
+      <div class="period-tab" onclick="setPeriod(this)">1Y</div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid animate-fade">
+      <div class="kpi-card">
+        <div class="kpi-icon">👁</div>
+        <div class="kpi-num">48.2K</div>
+        <div class="kpi-label">Profile Views</div>
+        <div class="kpi-change up">↑ +24% vs last period</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">👥</div>
+        <div class="kpi-num">3,200</div>
+        <div class="kpi-label">Total Followers</div>
+        <div class="kpi-change up">↑ +312 new</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">🔥</div>
+        <div class="kpi-num">87.4%</div>
+        <div class="kpi-label">Engagement Rate</div>
+        <div class="kpi-change up">↑ +12% this week</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">💰</div>
+        <div class="kpi-num">$820</div>
+        <div class="kpi-label">Earnings</div>
+        <div class="kpi-change up">↑ +$320 vs last month</div>
+      </div>
+    </div>
+
+    <!-- Earnings -->
+    <div class="earnings-card animate-fade">
+      <div style="font-size:12px;font-weight:700;opacity:0.7;letter-spacing:1px;margin-bottom:8px;">TOTAL EARNINGS · JUNE 2026</div>
+      <div class="earn-total">$820.00</div>
+      <div class="earn-sub">+$320 from last month 📈</div>
+      <div class="earn-breakdown">
+        <div class="earn-item"><div class="earn-num">$400</div><div class="earn-lbl">Courses</div></div>
+        <div class="earn-item"><div class="earn-num">$280</div><div class="earn-lbl">Signals</div></div>
+        <div class="earn-item"><div class="earn-num">$140</div><div class="earn-lbl">Tips</div></div>
+      </div>
+    </div>
+
+    <!-- Reach Chart -->
+    <div class="chart-card animate-fade">
+      <div class="chart-header">
+        <span class="chart-title">📈 Post Reach — Last 7 Days</span>
+        <span class="chart-badge">+61%</span>
+      </div>
+      <div class="bar-chart">
+        <div class="bar" style="height:40%;background:linear-gradient(to top,var(--primary),var(--accent));" title="Mon"></div>
+        <div class="bar" style="height:55%;background:linear-gradient(to top,var(--primary),var(--accent));" title="Tue"></div>
+        <div class="bar" style="height:48%;background:linear-gradient(to top,var(--primary),var(--accent));" title="Wed"></div>
+        <div class="bar" style="height:72%;background:linear-gradient(to top,#f59e0b,#ef4444);" title="Thu"></div>
+        <div class="bar" style="height:65%;background:linear-gradient(to top,var(--primary),var(--accent));" title="Fri"></div>
+        <div class="bar" style="height:88%;background:linear-gradient(to top,#f59e0b,#ef4444);" title="Sat"></div>
+        <div class="bar" style="height:100%;background:linear-gradient(to top,#10b981,#2d2d8e);" title="Sun"></div>
+      </div>
+      <div class="bar-labels">
+        <span class="bar-lbl">Mon</span><span class="bar-lbl">Tue</span><span class="bar-lbl">Wed</span>
+        <span class="bar-lbl">Thu</span><span class="bar-lbl">Fri</span><span class="bar-lbl">Sat</span><span class="bar-lbl">Sun</span>
+      </div>
+    </div>
+
+    <!-- Follower Growth -->
+    <div class="chart-card animate-fade">
+      <div class="chart-header">
+        <span class="chart-title">👥 Follower Growth</span>
+        <span class="chart-badge">+312 this week</span>
+      </div>
+      <div class="bar-chart">
+        <div class="bar" style="height:30%;background:rgba(16,185,129,0.5);"></div>
+        <div class="bar" style="height:42%;background:rgba(16,185,129,0.6);"></div>
+        <div class="bar" style="height:38%;background:rgba(16,185,129,0.5);"></div>
+        <div class="bar" style="height:60%;background:rgba(16,185,129,0.7);"></div>
+        <div class="bar" style="height:55%;background:rgba(16,185,129,0.6);"></div>
+        <div class="bar" style="height:78%;background:rgba(16,185,129,0.8);"></div>
+        <div class="bar" style="height:100%;background:#10b981;"></div>
+      </div>
+      <div class="bar-labels">
+        <span class="bar-lbl">Mon</span><span class="bar-lbl">Tue</span><span class="bar-lbl">Wed</span>
+        <span class="bar-lbl">Thu</span><span class="bar-lbl">Fri</span><span class="bar-lbl">Sat</span><span class="bar-lbl">Sun</span>
+      </div>
+    </div>
+
+    <!-- Top Posts -->
+    <div class="chart-card animate-fade">
+      <div class="chart-header">
+        <span class="chart-title">🏆 Top Performing Posts</span>
+        <span style="font-size:12px;color:var(--accent);font-weight:600;cursor:pointer;">See all</span>
+      </div>
+      <div class="top-posts">
+        <div class="top-post-item">
+          <div class="top-post-rank">1</div>
+          <div class="top-post-info">
+            <div class="top-post-text">🚨 LIVE SIGNAL — XAUUSD bullish on H4...</div>
+            <div class="top-post-meta">147 likes · 38 comments</div>
+          </div>
+          <div class="top-post-views">8.4K</div>
+        </div>
+        <div class="top-post-item">
+          <div class="top-post-rank">2</div>
+          <div class="top-post-info">
+            <div class="top-post-text">Elite Members is now LIVE! Africa's...</div>
+            <div class="top-post-meta">891 likes · 203 comments</div>
+          </div>
+          <div class="top-post-views">24.1K</div>
+        </div>
+        <div class="top-post-item">
+          <div class="top-post-rank">3</div>
+          <div class="top-post-info">
+            <div class="top-post-text">Africa is the next frontier for fintech...</div>
+            <div class="top-post-meta">312 likes · 94 comments</div>
+          </div>
+          <div class="top-post-views">15.8K</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audience Breakdown -->
+    <div class="chart-card animate-fade">
+      <div class="chart-header"><span class="chart-title">🌍 Audience by Country</span></div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div>
+          <div class="audience-label"><span>🇺🇬 Uganda</span><span>34%</span></div>
+          <div class="audience-bar-wrap"><div class="audience-bar-fill" style="width:34%;"></div></div>
+        </div>
+        <div>
+          <div class="audience-label"><span>🇰🇪 Kenya</span><span>22%</span></div>
+          <div class="audience-bar-wrap"><div class="audience-bar-fill" style="width:22%;background:linear-gradient(135deg,#10b981,#2d2d8e);"></div></div>
+        </div>
+        <div>
+          <div class="audience-label"><span>🇬🇭 Ghana</span><span>18%</span></div>
+          <div class="audience-bar-wrap"><div class="audience-bar-fill" style="width:18%;background:linear-gradient(135deg,#f59e0b,#ef4444);"></div></div>
+        </div>
+        <div>
+          <div class="audience-label"><span>🇳🇬 Nigeria</span><span>14%</span></div>
+          <div class="audience-bar-wrap"><div class="audience-bar-fill" style="width:14%;background:linear-gradient(135deg,#7c3aed,#4a6fff);"></div></div>
+        </div>
+        <div>
+          <div class="audience-label"><span>🌍 Other Africa</span><span>12%</span></div>
+          <div class="audience-bar-wrap"><div class="audience-bar-fill" style="width:12%;background:linear-gradient(135deg,#6b7280,#9ca3af);"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <script>
+    function setPeriod(el) {
+      document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+  </script>
+</body>
+</html>
