@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elite Members — Africa's #1 Community for Creators, Traders & Entrepreneurs</title>
+  <meta name="description" content="Join 12,000+ creators, traders, and entrepreneurs across Africa. Get signals, grow your business, monetize your skills, and connect with Africa's most ambitious community." />
+  <meta name="keywords" content="elite members, africa trading community, forex signals, entrepreneur network, creator platform, Uganda, Kenya, Ghana" />
+  <meta name="theme-color" content="#0a0a1a" />
+  <meta property="og:title" content="Elite Members — Africa's Elite Community" />
+  <meta property="og:description" content="Join 12,000+ creators, traders & entrepreneurs across Africa. Connect. Create. Conquer." />
+  <meta property="og:image" content="https://asiimwe3.github.io/elite-members/assets/founder.jpg" />
+  <meta property="og:url" content="https://asiimwe3.github.io/elite-members" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="https://img.icons8.com/color/192/crown.png" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a1a;
+      --surface: #111127;
+      --surface2: #1a1a35;
+      --border: rgba(255,255,255,0.08);
+      --text: #f0f0ff;
+      --muted: #8888aa;
+      --gold: #f5c842;
+      --gold2: #e8a020;
+      --blue: #4a6fff;
+      --purple: #8b5cf6;
+      --green: #10b981;
+      --red: #ef4444;
+      --glow-gold: rgba(245,200,66,0.15);
+      --glow-blue: rgba(74,111,255,0.15);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; }
+
+    /* ===== UTILITY ===== */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--gold), var(--gold2), #ff8c42);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .gradient-text-blue {
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .glass {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .section { padding: 90px 0; }
+    .section-tag {
+      display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold); padding: 5px 16px;
+      background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.25);
+      border-radius: 20px; margin-bottom: 16px;
+    }
+    .section-title { font-size: clamp(28px, 5vw, 44px); font-weight: 800; line-height: 1.2; margin-bottom: 14px; }
+    .section-sub { font-size: 16px; color: var(--muted); max-width: 560px; line-height: 1.7; }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 16px 20px;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .navbar.scrolled {
+      background: rgba(10,10,26,0.92);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .navbar-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
+    .nav-logo img { width: 36px; height: 36px; }
+    .nav-logo span { font-size: 18px; font-weight: 800; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { display: flex; align-items: center; gap: 10px; }
+    .btn-outline { padding: 9px 20px; border: 1.5px solid var(--border); border-radius: 25px; font-size: 14px; font-weight: 600; color: var(--text); transition: border-color 0.2s, background 0.2s; cursor: pointer; background: none; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-primary {
+      padding: 10px 22px; border-radius: 25px; font-size: 14px; font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #0a0a1a; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,200,66,0.35); }
+    .hamburger { display: none; background: none; border: none; color: var(--text); font-size: 22px; cursor: pointer; }
+    .mobile-menu { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(10,10,26,0.97); flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 22px; font-weight: 700; color: var(--text); }
+    .mobile-menu-close { position: absolute; top: 20px; right: 24px; font-size: 28px; cursor: pointer; color: var(--muted); background: none; border: none; }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding: 120px 20px 80px;
+      text-align: center;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(74,111,255,0.18) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 50% at 80% 80%, rgba(139,92,246,0.12) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 40% at 20% 80%, rgba(245,200,66,0.08) 0%, transparent 70%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+    }
+    /* Floating orbs */
+    .orb { position: absolute; border-radius: 50%; filter: blur(60px); animation: float-orb 8s ease-in-out infinite; pointer-events: none; z-index: 0; }
+    .orb1 { width: 400px; height: 400px; background: rgba(74,111,255,0.12); top: -100px; left: -100px; animation-delay: 0s; }
+    .orb2 { width: 300px; height: 300px; background: rgba(139,92,246,0.1); bottom: -50px; right: -50px; animation-delay: 3s; }
+    .orb3 { width: 200px; height: 200px; background: rgba(245,200,66,0.08); top: 50%; left: 50%; animation-delay: 5s; }
+    @keyframes float-orb { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-20px)} }
+
+    .hero-content { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.25);
+      padding: 8px 18px; border-radius: 30px; font-size: 13px; font-weight: 600; color: var(--gold);
+      margin-bottom: 28px; animation: fadeInDown 0.8s ease both;
+    }
+    .hero-badge-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+    @keyframes fadeInDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    .hero h1 {
+      font-size: clamp(34px, 7vw, 72px); font-weight: 900; line-height: 1.1;
+      margin-bottom: 22px; animation: fadeInUp 0.8s 0.2s ease both;
+      letter-spacing: -1px;
+    }
+    .hero-sub {
+      font-size: clamp(15px, 2.5vw, 18px); color: var(--muted); max-width: 580px;
+      margin: 0 auto 36px; line-height: 1.7; animation: fadeInUp 0.8s 0.4s ease both;
+    }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; animation: fadeInUp 0.8s 0.6s ease both; }
+    .btn-hero-primary {
+      padding: 16px 36px; background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #0a0a1a; font-size: 16px; font-weight: 800; border-radius: 50px;
+      border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(245,200,66,0.4); }
+    .btn-hero-secondary {
+      padding: 16px 36px; background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12);
+      color: var(--text); font-size: 16px; font-weight: 700; border-radius: 50px; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-hero-secondary:hover { border-color: var(--blue); background: rgba(74,111,255,0.08); }
+
+    .hero-social-proof { margin-top: 44px; animation: fadeInUp 0.8s 0.8s ease both; }
+    .hero-avatars { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; }
+    .hero-avatar { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--bg); object-fit: cover; margin-left: -10px; }
+    .hero-avatar:first-child { margin-left: 0; }
+    .hero-proof-text { font-size: 14px; color: var(--muted); }
+    .hero-proof-text strong { color: var(--text); }
+
+    /* Stars */
+    .stars { color: var(--gold); font-size: 13px; margin-bottom: 4px; }
+
+    /* ===== MARQUEE / LOGOS ===== */
+    .marquee-section { padding: 40px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; }
+    .marquee-label { text-align: center; font-size: 12px; letter-spacing: 2px; font-weight: 600; color: var(--muted); text-transform: uppercase; margin-bottom: 20px; }
+    .marquee-track { display: flex; gap: 48px; animation: marquee 25s linear infinite; width: max-content; }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .marquee-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+    .marquee-item i { font-size: 18px; }
+
+    /* ===== WHY JOIN ===== */
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 56px; }
+    .why-card {
+      border-radius: 20px; padding: 28px; position: relative; overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s; cursor: default;
+    }
+    .why-card:hover { transform: translateY(-6px); }
+    .why-card.gold-card { background: linear-gradient(135deg, rgba(245,200,66,0.08), rgba(232,160,32,0.04)); border: 1px solid rgba(245,200,66,0.2); }
+    .why-card.gold-card:hover { box-shadow: 0 20px 60px rgba(245,200,66,0.15); }
+    .why-card.blue-card { background: linear-gradient(135deg, rgba(74,111,255,0.08), rgba(139,92,246,0.04)); border: 1px solid rgba(74,111,255,0.2); }
+    .why-card.blue-card:hover { box-shadow: 0 20px 60px rgba(74,111,255,0.15); }
+    .why-card.green-card { background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(74,111,255,0.04)); border: 1px solid rgba(16,185,129,0.2); }
+    .why-card.green-card:hover { box-shadow: 0 20px 60px rgba(16,185,129,0.12); }
+    .why-icon { font-size: 36px; margin-bottom: 18px; }
+    .why-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; }
+    .why-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 18px; }
+    .why-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .why-features li { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+    .why-features li::before { content: '✓'; font-weight: 800; font-size: 12px; flex-shrink: 0; }
+    .why-card.gold-card .why-features li::before { color: var(--gold); }
+    .why-card.blue-card .why-features li::before { color: var(--blue); }
+    .why-card.green-card .why-features li::before { color: var(--green); }
+
+    /* ===== PLATFORM PREVIEW ===== */
+    .preview-section { background: linear-gradient(180deg, transparent, rgba(74,111,255,0.04), transparent); }
+    .preview-tabs { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+    .preview-tab {
+      padding: 9px 20px; border-radius: 25px; font-size: 13px; font-weight: 600;
+      border: 1px solid var(--border); background: transparent; color: var(--muted);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .preview-tab.active, .preview-tab:hover { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.3); color: var(--gold); }
+    .preview-frame {
+      border-radius: 20px; overflow: hidden; border: 1px solid var(--border);
+      background: var(--surface); position: relative;
+    }
+    .preview-bar { background: var(--surface2); padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+    .preview-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .preview-url { flex: 1; background: rgba(255,255,255,0.04); border-radius: 6px; padding: 4px 12px; font-size: 12px; color: var(--muted); text-align: center; }
+    .preview-content { padding: 24px; min-height: 320px; }
+
+    /* Mock UI inside preview */
+    .mock-post { background: var(--surface2); border-radius: 12px; padding: 14px; margin-bottom: 12px; border: 1px solid var(--border); }
+    .mock-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .mock-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .mock-name { font-size: 13px; font-weight: 700; }
+    .mock-time { font-size: 11px; color: var(--muted); }
+    .mock-text { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+    .mock-actions { display: flex; gap: 16px; }
+    .mock-action { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+
+    /* ===== STATS ===== */
+    .stats-section { background: linear-gradient(135deg, rgba(245,200,66,0.04), transparent, rgba(74,111,255,0.04)); }
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 50px; }
+    @media (min-width: 600px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+    .stat-card {
+      border-radius: 20px; padding: 28px 20px; text-align: center;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(245,200,66,0.08); }
+    .stat-num { font-size: clamp(32px, 6vw, 52px); font-weight: 900; line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .stat-icon { font-size: 24px; margin-bottom: 10px; }
+
+    /* ===== TESTIMONIALS ===== */
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 50px; }
+    .testi-card {
+      border-radius: 20px; padding: 24px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03); transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .testi-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(74,111,255,0.1); }
+    .testi-quote { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 18px; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); }
+    .testi-name { font-size: 14px; font-weight: 700; }
+    .testi-role { font-size: 12px; color: var(--muted); }
+    .testi-metric { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: rgba(16,185,129,0.12); color: var(--green); }
+
+    /* ===== FOUNDER ===== */
+    .founder-section { }
+    .founder-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    @media(max-width:768px) { .founder-inner { grid-template-columns: 1fr; } }
+    .founder-img-wrap { position: relative; }
+    .founder-img {
+      width: 100%; max-width: 400px; border-radius: 24px; object-fit: cover;
+      aspect-ratio: 4/5; display: block; margin: 0 auto;
+      border: 1px solid var(--border);
+    }
+    .founder-glow { position: absolute; inset: -20px; background: radial-gradient(ellipse, rgba(74,111,255,0.15), transparent 70%); z-index: -1; border-radius: 50%; }
+    .founder-badge-overlay {
+      position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%);
+      background: var(--surface); border: 1px solid var(--border); border-radius: 50px;
+      padding: 10px 20px; display: flex; align-items: center; gap: 10px; white-space: nowrap;
+    }
+    .founder-text h2 { font-size: clamp(26px, 4vw, 40px); font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+    .founder-text p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+    .founder-socials { display: flex; gap: 12px; margin-top: 24px; }
+    .social-link {
+      width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; color: var(--muted);
+      font-size: 16px; transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .social-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(245,200,66,0.08); }
+    .founder-values { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+    .fvalue { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+    .fvalue-icon { font-size: 20px; margin-bottom: 6px; }
+    .fvalue-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .fvalue-desc { font-size: 12px; color: var(--muted); }
+
+    /* ===== PRICING ===== */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 50px; align-items: start; }
+    .pricing-card { border-radius: 24px; padding: 30px; position: relative; transition: transform 0.3s; }
+    .pricing-card:hover { transform: translateY(-6px); }
+    .pricing-card.free { background: rgba(255,255,255,0.03); border: 1px solid var(--border); }
+    .pricing-card.elite {
+      background: linear-gradient(135deg, rgba(74,111,255,0.12), rgba(139,92,246,0.08));
+      border: 1px solid rgba(74,111,255,0.3);
+    }
+    .pricing-card.business {
+      background: linear-gradient(135deg, rgba(245,200,66,0.1), rgba(232,160,32,0.06));
+      border: 2px solid rgba(245,200,66,0.4);
+    }
+    .recommended-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #0a0a1a;
+      font-size: 11px; font-weight: 800; padding: 5px 18px; border-radius: 20px;
+      white-space: nowrap; letter-spacing: 0.5px;
+    }
+    .plan-name { font-size: 14px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .plan-price { font-size: 48px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+    .plan-price span { font-size: 18px; font-weight: 500; color: var(--muted); }
+    .plan-period { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+    .plan-desc { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
+    .plan-features li { font-size: 14px; display: flex; align-items: center; gap: 10px; }
+    .plan-features li i { font-size: 13px; flex-shrink: 0; }
+    .plan-features li.included i { color: var(--green); }
+    .plan-features li.excluded { color: var(--muted); }
+    .plan-features li.excluded i { color: var(--muted); }
+    .plan-btn {
+      width: 100%; padding: 14px; border-radius: 50px; font-size: 15px; font-weight: 700;
+      cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .plan-btn.gold { background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #0a0a1a; }
+    .plan-btn.gold:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(245,200,66,0.35); }
+    .plan-btn.outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+    .plan-btn.outline:hover { border-color: var(--blue); }
+    .plan-btn.blue-btn { background: linear-gradient(135deg, var(--blue), var(--purple)); color: #fff; }
+    .plan-btn.blue-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(74,111,255,0.35); }
+
+    /* ===== FAQ ===== */
+    .faq-list { max-width: 720px; margin: 50px auto 0; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: rgba(255,255,255,0.02); }
+    .faq-q {
+      padding: 18px 22px; font-size: 15px; font-weight: 600; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.2s;
+    }
+    .faq-q:hover { background: rgba(255,255,255,0.03); }
+    .faq-q i { transition: transform 0.3s; color: var(--muted); font-size: 14px; flex-shrink: 0; margin-left: 12px; }
+    .faq-item.open .faq-q i { transform: rotate(180deg); color: var(--gold); }
+    .faq-a { font-size: 14px; color: var(--muted); line-height: 1.8; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; padding: 0 22px; }
+    .faq-item.open .faq-a { max-height: 300px; padding: 0 22px 18px; }
+
+    /* ===== TRUST ===== */
+    .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 40px; }
+    .trust-card { border-radius: 16px; padding: 20px; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+    .trust-icon { font-size: 32px; margin-bottom: 10px; }
+    .trust-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .trust-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* ===== NEWSLETTER ===== */
+    .newsletter-section {
+      background: linear-gradient(135deg, rgba(74,111,255,0.08), rgba(245,200,66,0.06), rgba(139,92,246,0.06));
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .newsletter-inner { text-align: center; max-width: 520px; margin: 0 auto; }
+    .newsletter-inner h2 { font-size: clamp(26px, 4vw, 40px); font-weight: 800; margin-bottom: 12px; }
+    .newsletter-inner p { font-size: 15px; color: var(--muted); margin-bottom: 32px; line-height: 1.7; }
+    .newsletter-form { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .newsletter-input {
+      flex: 1; min-width: 220px; padding: 14px 20px; background: rgba(255,255,255,0.05);
+      border: 1.5px solid var(--border); border-radius: 50px; color: var(--text);
+      font-size: 14px; outline: none; transition: border-color 0.2s;
+    }
+    .newsletter-input:focus { border-color: var(--gold); }
+    .newsletter-input::placeholder { color: var(--muted); }
+    .newsletter-btn {
+      padding: 14px 28px; background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: #0a0a1a; font-weight: 700; font-size: 14px; border: none; border-radius: 50px;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap;
+    }
+    .newsletter-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(245,200,66,0.35); }
+    .newsletter-note { font-size: 12px; color: var(--muted); margin-top: 14px; }
+
+    /* ===== FOOTER ===== */
+    .footer { padding: 60px 0 30px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 50px; }
+    @media(max-width:768px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer-brand { grid-column: 1/-1; } }
+    @media(max-width:480px) { .footer-grid { grid-template-columns: 1fr; } }
+    .footer-brand-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .footer-brand-logo span { font-size: 18px; font-weight: 800; }
+    .footer-brand p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 280px; margin-bottom: 18px; }
+    .footer-socials { display: flex; gap: 10px; }
+    .footer-social { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; transition: all 0.2s; }
+    .footer-social:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-col h4 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 16px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--muted); margin-bottom: 10px; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 10px; flex-wrap: wrap; }
+    .footer-bottom p { font-size: 13px; color: var(--muted); }
+    .footer-bottom-links { display: flex; gap: 20px; }
+    .footer-bottom-links a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+    .footer-bottom-links a:hover { color: var(--text); }
+
+    /* ===== BACK TO TOP ===== */
+    .back-top {
+      position: fixed; bottom: 24px; right: 24px; z-index: 500;
+      width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold2));
+      border: none; color: #0a0a1a; font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 4px 20px rgba(245,200,66,0.4);
+    }
+    .back-top.visible { opacity: 1; pointer-events: auto; }
+    .back-top:hover { transform: translateY(-3px); }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:768px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .btn-outline { display: none; }
+      .section { padding: 70px 0; }
+      .hero { padding: 100px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="#" class="nav-logo">
+        <img src="https://img.icons8.com/color/48/crown.png" alt="Elite Members" />
+        <span class="gradient-text">Elite Members</span>
+      </a>
+      <div class="nav-links">
+        <a href="#why">Why Join</a>
+        <a href="#preview">Platform</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#founder">About</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-cta">
+        <button class="btn-outline" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Sign In</button>
+        <button class="btn-primary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Join Now →</button>
+      </div>
+      <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+      <i class="fa fa-times"></i>
+    </button>
+    <a href="#why" onclick="document.getElementById('mobileMenu').classList.remove('open')">Why Join</a>
+    <a href="#preview" onclick="document.getElementById('mobileMenu').classList.remove('open')">Platform</a>
+    <a href="#pricing" onclick="document.getElementById('mobileMenu').classList.remove('open')">Pricing</a>
+    <a href="#founder" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
+    <a href="#faq" onclick="document.getElementById('mobileMenu').classList.remove('open')">FAQ</a>
+    <button class="btn-hero-primary" style="font-size:15px;" onclick="document.getElementById('mobileMenu').classList.remove('open');document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Join Now →</button>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        🌍 12,000+ Members Across Africa
+      </div>
+
+      <h1>Africa's Elite Community for <span class="gradient-text">Creators, Traders</span> &amp; <span class="gradient-text-blue">Entrepreneurs</span></h1>
+
+      <p class="hero-sub">
+        The all-in-one platform to grow your network, access real trading signals, monetize your skills, and build the life you deserve — with Africa's most ambitious community.
+      </p>
+
+      <div class="hero-btns">
+        <button class="btn-hero-primary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">
+          👑 Join Now — It's Free
+        </button>
+        <button class="btn-hero-secondary" onclick="document.getElementById('preview').scrollIntoView({behavior:'smooth'})">
+          <i class="fa fa-play-circle"></i> See How It Works
+        </button>
+      </div>
+
+      <div class="hero-social-proof">
+        <div class="hero-avatars">
+          <img src="https://i.pravatar.cc/38?img=11" class="hero-avatar" alt="member" />
+          <img src="https://i.pravatar.cc/38?img=22" class="hero-avatar" alt="member" />
+          <img src="https://i.pravatar.cc/38?img=33" class="hero-avatar" alt="member" />
+          <img src="https://i.pravatar.cc/38?img=44" class="hero-avatar" alt="member" />
+          <img src="https://i.pravatar.cc/38?img=55" class="hero-avatar" alt="member" />
+          <img src="https://assets.asiimwe3.github.io/elite-members/assets/founder.jpg" class="hero-avatar" onerror="this.src='https://i.pravatar.cc/38?img=66'" alt="founder" />
+        </div>
+        <div class="stars">★★★★★</div>
+        <p class="hero-proof-text"><strong>12,000+</strong> creators, traders &amp; entrepreneurs trust Elite Members</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="marquee-section">
+    <p class="marquee-label">Trusted across Africa and beyond</p>
+    <div style="overflow:hidden;">
+      <div class="marquee-track">
+        <div class="marquee-item"><i class="fa fa-chart-line" style="color:#10b981"></i> Forex Trading</div>
+        <div class="marquee-item"><i class="fab fa-bitcoin" style="color:#f59e0b"></i> Crypto Markets</div>
+        <div class="marquee-item"><i class="fa fa-store" style="color:#7c3aed"></i> E-Commerce</div>
+        <div class="marquee-item"><i class="fa fa-video" style="color:#4a6fff"></i> Content Creation</div>
+        <div class="marquee-item"><i class="fa fa-handshake" style="color:#f59e0b"></i> Business Deals</div>
+        <div class="marquee-item"><i class="fa fa-rocket" style="color:#ef4444"></i> Startups</div>
+        <div class="marquee-item"><i class="fa fa-graduation-cap" style="color:#10b981"></i> Trading Academy</div>
+        <div class="marquee-item"><i class="fa fa-globe-africa" style="color:#f5c842"></i> Pan-African Network</div>
+        <div class="marquee-item"><i class="fa fa-mobile-alt" style="color:#7c3aed"></i> Mobile Money</div>
+        <div class="marquee-item"><i class="fa fa-crown" style="color:#f5c842"></i> VIP Signals</div>
+        <!-- duplicate -->
+        <div class="marquee-item"><i class="fa fa-chart-line" style="color:#10b981"></i> Forex Trading</div>
+        <div class="marquee-item"><i class="fab fa-bitcoin" style="color:#f59e0b"></i> Crypto Markets</div>
+        <div class="marquee-item"><i class="fa fa-store" style="color:#7c3aed"></i> E-Commerce</div>
+        <div class="marquee-item"><i class="fa fa-video" style="color:#4a6fff"></i> Content Creation</div>
+        <div class="marquee-item"><i class="fa fa-handshake" style="color:#f59e0b"></i> Business Deals</div>
+        <div class="marquee-item"><i class="fa fa-rocket" style="color:#ef4444"></i> Startups</div>
+        <div class="marquee-item"><i class="fa fa-graduation-cap" style="color:#10b981"></i> Trading Academy</div>
+        <div class="marquee-item"><i class="fa fa-globe-africa" style="color:#f5c842"></i> Pan-African Network</div>
+        <div class="marquee-item"><i class="fa fa-mobile-alt" style="color:#7c3aed"></i> Mobile Money</div>
+        <div class="marquee-item"><i class="fa fa-crown" style="color:#f5c842"></i> VIP Signals</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== WHY JOIN ===== -->
+  <section class="section" id="why">
+    <div class="container">
+      <div style="text-align:center;" class="reveal">
+        <div class="section-tag">✦ Why Elite Members</div>
+        <h2 class="section-title">Built for <span class="gradient-text">Africa's</span> Most Ambitious</h2>
+        <p class="section-sub" style="margin:0 auto;">Whether you create, trade, or build businesses — Elite Members has everything you need to level up, connect, and earn.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card gold-card reveal" style="transition-delay:0.1s">
+          <div class="why-icon">🎨</div>
+          <h3 class="why-title gradient-text">For Creators</h3>
+          <p class="why-desc">Build your brand, grow a loyal audience, and turn your passion into consistent income — all on one platform.</p>
+          <ul class="why-features">
+            <li>Monetize your content & skills</li>
+            <li>Collaboration tools & partnerships</li>
+            <li>AI-powered content suggestions</li>
+            <li>Creator analytics dashboard</li>
+            <li>Sell courses, ebooks & services</li>
+          </ul>
+        </div>
+        <div class="why-card blue-card reveal" style="transition-delay:0.2s">
+          <div class="why-icon">📈</div>
+          <h3 class="why-title gradient-text-blue">For Traders</h3>
+          <p class="why-desc">Get live signals, learn from expert analysts, and network with serious traders across Africa and beyond.</p>
+          <ul class="why-features">
+            <li>Live forex, gold & crypto signals</li>
+            <li>Market analysis & education</li>
+            <li>Verified signal providers</li>
+            <li>Risk management tools</li>
+            <li>Trading journal & tracking</li>
+          </ul>
+        </div>
+        <div class="why-card green-card reveal" style="transition-delay:0.3s">
+          <div class="why-icon">🚀</div>
+          <h3 class="why-title" style="color:var(--green)">For Entrepreneurs</h3>
+          <p class="why-desc">Connect with investors, promote your business, find partners, and access Africa's fastest-growing marketplace.</p>
+          <ul class="why-features">
+            <li>Business promotion & exposure</li>
+            <li>Investor & partner connections</li>
+            <li>Marketplace to sell products</li>
+            <li>Events, webinars & networking</li>
+            <li>Business mentorship access</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLATFORM PREVIEW ===== -->
+  <section class="section preview-section" id="preview">
+    <div class="container">
+      <div style="text-align:center;" class="reveal">
+        <div class="section-tag">✦ Platform Preview</div>
+        <h2 class="section-title">Everything You Need, <span class="gradient-text-blue">In One Place</span></h2>
+        <p class="section-sub" style="margin:0 auto 32px;">A fully-featured platform built for the modern African creator and entrepreneur.</p>
+      </div>
+      <div class="preview-tabs reveal">
+        <button class="preview-tab active" onclick="setPreview('feed', this)">📰 Community Feed</button>
+        <button class="preview-tab" onclick="setPreview('signals', this)">📡 Live Signals</button>
+        <button class="preview-tab" onclick="setPreview('market', this)">🏪 Marketplace</button>
+        <button class="preview-tab" onclick="setPreview('creator', this)">🧪 Creator Lab</button>
+        <button class="preview-tab" onclick="setPreview('analytics', this)">📊 Analytics</button>
+      </div>
+      <div class="preview-frame reveal">
+        <div class="preview-bar">
+          <div class="preview-dot" style="background:#ef4444"></div>
+          <div class="preview-dot" style="background:#f59e0b"></div>
+          <div class="preview-dot" style="background:#10b981"></div>
+          <div class="preview-url" id="previewUrl">elitemembers.app/feed</div>
+        </div>
+        <div class="preview-content" id="previewContent">
+          <!-- Feed Preview -->
+          <div class="mock-post">
+            <div class="mock-header">
+              <img src="https://i.pravatar.cc/36?img=22" class="mock-avatar" />
+              <div><div class="mock-name">Sarah Mwangi ⚡</div><div class="mock-time">5 min ago</div></div>
+            </div>
+            <div class="mock-text">🚨 XAU/USD BUY signal — Entry 2,315 | TP 2,340 | SL 2,298. Risk 1-2% only. This setup is clean on H4. 📈 #GoldTrading #Signals</div>
+            <div class="mock-actions">
+              <span class="mock-action" style="color:#ef4444"><i class="fa fa-heart"></i> 147</span>
+              <span class="mock-action"><i class="fa fa-comment"></i> 38</span>
+              <span class="mock-action"><i class="fa fa-retweet"></i> 22</span>
+            </div>
+          </div>
+          <div class="mock-post">
+            <div class="mock-header">
+              <img src="https://i.pravatar.cc/36?img=11" class="mock-avatar" />
+              <div><div class="mock-name">Kofi Acheampong 🏆</div><div class="mock-time">1 hr ago</div></div>
+            </div>
+            <div class="mock-text">Just closed a $15K business deal from a connection I made right here on Elite Members 3 months ago 🔥 Your network IS your net worth. #EliteMembers</div>
+            <div class="mock-actions">
+              <span class="mock-action" style="color:#ef4444"><i class="fa fa-heart"></i> 312</span>
+              <span class="mock-action"><i class="fa fa-comment"></i> 94</span>
+              <span class="mock-action"><i class="fa fa-retweet"></i> 88</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="section stats-section" id="stats">
+    <div class="container">
+      <div style="text-align:center;" class="reveal">
+        <div class="section-tag">✦ Community Stats</div>
+        <h2 class="section-title">Numbers That <span class="gradient-text">Speak for Themselves</span></h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card reveal" style="transition-delay:0.1s">
+          <div class="stat-icon">👥</div>
+          <div class="stat-num gradient-text" data-target="12000" data-suffix="K+">0</div>
+          <div class="stat-label">Active Members</div>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:0.2s">
+          <div class="stat-icon">🚀</div>
+          <div class="stat-num gradient-text-blue" data-target="3200" data-suffix="+">0</div>
+          <div class="stat-label">Projects Launched</div>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:0.3s">
+          <div class="stat-icon">💼</div>
+          <div class="stat-num gradient-text" data-target="840" data-suffix="+">0</div>
+          <div class="stat-label">Businesses Promoted</div>
+        </div>
+        <div class="stat-card reveal" style="transition-delay:0.4s">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-num gradient-text-blue" data-target="97" data-suffix="%">0</div>
+          <div class="stat-label">Satisfaction Rate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section" id="testimonials">
+    <div class="container">
+      <div style="text-align:center;" class="reveal">
+        <div class="section-tag">✦ Success Stories</div>
+        <h2 class="section-title">Real People, <span class="gradient-text">Real Results</span></h2>
+        <p class="section-sub" style="margin:0 auto;">Members across Africa are transforming their lives through Elite Members.</p>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card reveal" style="transition-delay:0.1s">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">"I joined Elite Members 6 months ago as a beginner trader. The signals and education here changed everything. I now consistently profit every month and even mentor others."</p>
+          <div class="testi-author">
+            <img src="https://i.pravatar.cc/44?img=22" class="testi-avatar" alt="Sarah Mwangi" />
+            <div>
+              <div class="testi-name">Sarah Mwangi</div>
+              <div class="testi-role">Forex Trader · Nairobi, Kenya 🇰🇪</div>
+              <span class="testi-metric">+$4,200/month profit</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal" style="transition-delay:0.2s">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">"Elite Members gave my e-commerce business the exposure it needed. I connected with 3 major partners here and doubled my revenue in 4 months. This platform is different."</p>
+          <div class="testi-author">
+            <img src="https://i.pravatar.cc/44?img=11" class="testi-avatar" alt="Kofi Acheampong" />
+            <div>
+              <div class="testi-name">Kofi Acheampong</div>
+              <div class="testi-role">Entrepreneur · Accra, Ghana 🇬🇭</div>
+              <span class="testi-metric">Revenue 2x in 4 months</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal" style="transition-delay:0.3s">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">"As a content creator, finding a monetization platform that actually works in Africa was hard. Elite Members solved that. I now earn from my posts, courses, and the marketplace."</p>
+          <div class="testi-author">
+            <img src="https://i.pravatar.cc/44?img=44" class="testi-avatar" alt="Ama Darko" />
+            <div>
+              <div class="testi-name">Ama Darko</div>
+              <div class="testi-role">Content Creator · Accra, Ghana 🇬🇭</div>
+              <span class="testi-metric">$1,800/month from content</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal" style="transition-delay:0.4s">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">"The community here is unlike anything I've seen in Africa. Everyone is serious, ambitious, and ready to help. I got my first investor introduction through Elite Members."</p>
+          <div class="testi-author">
+            <img src="https://i.pravatar.cc/44?img=33" class="testi-avatar" alt="John Banda" />
+            <div>
+              <div class="testi-name">John Banda</div>
+              <div class="testi-role">Startup Founder · Lusaka, Zambia 🇿🇲</div>
+              <span class="testi-metric">Secured $50K funding</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal" style="transition-delay:0.5s">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">"I launched my trading course on the Elite Members marketplace and made back my annual membership fee in the first week. The audience here is hungry and ready to invest in themselves."</p>
+          <div class="testi-author">
+            <img src="https://i.pravatar.cc/44?img=55" class="testi-avatar" alt="Felix Osei" />
+            <div>
+              <div class="testi-name">Felix Osei</div>
+              <div class="testi-role">Trading Educator · Lagos, Nigeria 🇳🇬</div>
+              <span class="testi-metric">$6K course sales in Week 1</span>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card reveal" style="transition-delay:0.6s">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">"Best decision I made for my business career. The networking alone is worth 100x the membership fee. I've collaborated with people from 6 African countries through Elite Members."</p>
+          <div class="testi-author">
+            <img src="https://i.pravatar.cc/44?img=66" class="testi-avatar" alt="Amira Hassan" />
+            <div>
+              <div class="testi-name">Amira Hassan</div>
+              <div class="testi-role">Business Consultant · Cairo, Egypt 🇪🇬</div>
+              <span class="testi-metric">6 country partnerships</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOUNDER ===== -->
+  <section class="section" id="founder">
+    <div class="container">
+      <div class="founder-inner">
+        <div class="founder-img-wrap reveal-left">
+          <div class="founder-glow"></div>
+          <img src="assets/founder.jpg" alt="Derick Asiimwe — Founder of Elite Members" class="founder-img" onerror="this.style.background='linear-gradient(135deg,#1a1a3e,#7c3aed)';this.src='https://i.pravatar.cc/400?img=68'" />
+          <div class="founder-badge-overlay">
+            <img src="https://img.icons8.com/color/24/crown.png" />
+            <div>
+              <div style="font-size:13px;font-weight:800;">Trader Derick Asiimwe</div>
+              <div style="font-size:11px;color:var(--muted);">Founder & CEO · Uganda 🇺🇬</div>
+            </div>
+          </div>
+        </div>
+        <div class="founder-text reveal-right">
+          <div class="section-tag">✦ Founder Story</div>
+          <h2>Built from <span class="gradient-text">Passion</span>, for <span class="gradient-text-blue">Africa</span></h2>
+          <p>"I started Elite Members because I saw the gap. Africa is full of talented traders, creators, and entrepreneurs — but we lacked a serious, high-quality space to connect, learn, and grow together."</p>
+          <p>"My mission is simple: build the most powerful community platform for ambitious Africans. A place where a trader in Uganda can learn from an analyst in Kenya, where a creator in Ghana can sell to buyers worldwide, and where entrepreneurs across the continent can find the partners they need to build real businesses."</p>
+          <p>"Elite Members is not just a platform — it's a movement. And it's just getting started. 🌍👑"</p>
+          <div class="founder-values">
+            <div class="fvalue">
+              <div class="fvalue-icon">🌍</div>
+              <div class="fvalue-title">Pan-African First</div>
+              <div class="fvalue-desc">Built by Africans, for Africans and the global diaspora.</div>
+            </div>
+            <div class="fvalue">
+              <div class="fvalue-icon">💡</div>
+              <div class="fvalue-title">Value-Driven</div>
+              <div class="fvalue-desc">Every feature exists to make members more successful.</div>
+            </div>
+            <div class="fvalue">
+              <div class="fvalue-icon">🔒</div>
+              <div class="fvalue-title">Trust & Safety</div>
+              <div class="fvalue-desc">Zero tolerance for scams. Verified members only.</div>
+            </div>
+            <div class="fvalue">
+              <div class="fvalue-icon">🚀</div>
+              <div class="fvalue-title">Growth Focused</div>
+              <div class="fvalue-desc">Constant innovation to serve our growing community.</div>
+            </div>
+          </div>
+          <div class="founder-socials">
+            <a href="https://twitter.com/traderderick" class="social-link" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://instagram.com/traderderick" class="social-link" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/in/traderderick" class="social-link" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+            <a href="https://t.me/traderderick" class="social-link" target="_blank" rel="noopener"><i class="fab fa-telegram"></i></a>
+            <a href="https://youtube.com/@traderderick" class="social-link" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRICING ===== -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <div style="text-align:center;" class="reveal">
+        <div class="section-tag">✦ Membership Plans</div>
+        <h2 class="section-title">Invest in Your <span class="gradient-text">Future</span></h2>
+        <p class="section-sub" style="margin:0 auto;">Start free, upgrade when you're ready. Every plan includes access to Africa's best trading & creator community.</p>
+      </div>
+      <div class="pricing-grid">
+        <!-- Free -->
+        <div class="pricing-card free reveal" style="transition-delay:0.1s">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">$0 <span>/mo</span></div>
+          <div class="plan-period">Forever free. No credit card needed.</div>
+          <div class="plan-desc">Perfect to explore the community and get a feel for Elite Members.</div>
+          <ul class="plan-features">
+            <li class="included"><i class="fa fa-check-circle"></i> Community feed access</li>
+            <li class="included"><i class="fa fa-check-circle"></i> Basic member profile</li>
+            <li class="included"><i class="fa fa-check-circle"></i> 3 channel subscriptions</li>
+            <li class="included"><i class="fa fa-check-circle"></i> Marketplace browsing</li>
+            <li class="excluded"><i class="fa fa-times-circle"></i> Live trading signals</li>
+            <li class="excluded"><i class="fa fa-times-circle"></i> Creator monetization</li>
+            <li class="excluded"><i class="fa fa-times-circle"></i> Business promotion</li>
+          </ul>
+          <button class="plan-btn outline" onclick="window.location.href='pages/feed.html'">Get Started Free</button>
+        </div>
+        <!-- Elite — Recommended -->
+        <div class="pricing-card elite reveal" style="transition-delay:0.2s">
+          <div class="recommended-badge">⭐ MOST POPULAR</div>
+          <div class="plan-name" style="color:var(--blue);">Elite Plan</div>
+          <div class="plan-price gradient-text-blue">$15 <span>/mo</span></div>
+          <div class="plan-period">or $120/year (save 33%)</div>
+          <div class="plan-desc">For serious traders and creators ready to level up.</div>
+          <ul class="plan-features">
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--blue)"></i> Everything in Free</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--blue)"></i> Live signals from top traders</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--blue)"></i> Unlimited channel access</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--blue)"></i> Creator monetization tools</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--blue)"></i> Priority messaging</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--blue)"></i> Events & webinars access</li>
+            <li class="excluded"><i class="fa fa-times-circle"></i> 1-on-1 mentorship</li>
+          </ul>
+          <button class="plan-btn blue-btn" onclick="window.location.href='pages/checkout.html?plan=elite&amount=15&desc=Elite+Plan'">Join Elite — $15/mo</button>
+        </div>
+        <!-- Business -->
+        <div class="pricing-card business reveal" style="transition-delay:0.3s">
+          <div class="plan-name" style="color:var(--gold);">Business Plan</div>
+          <div class="plan-price gradient-text">$49 <span>/mo</span></div>
+          <div class="plan-period">or $399/year (save 32%)</div>
+          <div class="plan-desc">For entrepreneurs, brands, and serious business builders.</div>
+          <ul class="plan-features">
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--gold)"></i> Everything in Elite</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--gold)"></i> Business profile & promotion</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--gold)"></i> Marketplace seller access</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--gold)"></i> 1-on-1 mentorship sessions</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--gold)"></i> AI-powered content tools</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--gold)"></i> Verified Business badge</li>
+            <li class="included"><i class="fa fa-check-circle" style="color:var(--gold)"></i> Investor network access</li>
+          </ul>
+          <button class="plan-btn gold" onclick="window.location.href='pages/checkout.html?plan=business&amount=49&desc=Business+Plan'">Join Business — $49/mo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div style="text-align:center;" class="reveal">
+        <div class="section-tag">✦ FAQ</div>
+        <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <div class="faq-q" onclick="toggleFaq(this)">What is Elite Members? <i class="fa fa-chevron-down"></i></div>
+          <div class="faq-a">Elite Members is Africa's premier community platform for creators, traders, and entrepreneurs. It combines a social feed, live trading signals, a marketplace, creator monetization tools, and a powerful business network — all in one mobile-first app.</div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" onclick="toggleFaq(this)">Is it really free to join? <i class="fa fa-chevron-down"></i></div>
+          <div class="faq-a">Yes! The Free plan gives you access to the community feed, a member profile, and 3 channel subscriptions at no cost. You can upgrade to Elite or Business whenever you're ready to unlock advanced features.</div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" onclick="toggleFaq(this)">How do the trading signals work? <i class="fa fa-chevron-down"></i></div>
+          <div class="faq-a">Elite and Business members get real-time access to verified trading signals from experienced traders. Each signal includes the asset pair, direction (Buy/Sell), entry price, take profit targets, and stop loss levels. Signals cover Forex, Gold, and major cryptocurrencies.</div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" onclick="toggleFaq(this)">How can I make money as a creator on Elite Members? <i class="fa fa-chevron-down"></i></div>
+          <div class="faq-a">Elite Members members can earn through multiple streams: selling courses, ebooks, and digital products on the marketplace; charging for premium signal channels; receiving tips from followers; offering freelance services; and running paid collaborations with other creators or brands.</div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" onclick="toggleFaq(this)">What payment methods are accepted? <i class="fa fa-chevron-down"></i></div>
+          <div class="faq-a">We accept MTN Mobile Money, Airtel Money, Visa, and Mastercard through our secure Pesapal integration. Payments are encrypted and processed securely. We're expanding to more African mobile money providers soon.</div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" onclick="toggleFaq(this)">Is Elite Members only for Ugandans? <i class="fa fa-chevron-down"></i></div>
+          <div class="faq-a">Not at all! Elite Members is a Pan-African platform with members from Uganda, Kenya, Ghana, Nigeria, Tanzania, Zambia, Egypt, and many more countries — as well as African diaspora members worldwide. We're built for Africa and the world.</div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" onclick="toggleFaq(this)">Can I cancel my membership anytime? <i class="fa fa-chevron-down"></i></div>
+          <div class="faq-a">Absolutely. There are no long-term contracts. You can cancel your monthly or annual subscription at any time from your account settings. Your access continues until the end of your billing period.</div>
+        </div>
+        <div class="faq-item reveal">
+          <div class="faq-q" onclick="toggleFaq(this)">Is my personal and financial data safe? <i class="fa fa-chevron-down"></i></div>
+          <div class="faq-a">Yes. We take security seriously. All payments are processed through PCI-compliant Pesapal. Your personal data is never sold to third parties. We follow strict data protection policies and use industry-standard encryption across the entire platform.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST ===== -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div style="text-align:center;" class="reveal">
+        <div class="section-tag">✦ Trust & Security</div>
+        <h2 class="section-title">Your Safety is Our <span class="gradient-text">Priority</span></h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card reveal" style="transition-delay:0.1s">
+          <div class="trust-icon">🔐</div>
+          <div class="trust-title">End-to-End Encrypted</div>
+          <div class="trust-desc">All messages and personal data are fully encrypted. No one can access your private conversations.</div>
+        </div>
+        <div class="trust-card reveal" style="transition-delay:0.2s">
+          <div class="trust-icon">✅</div>
+          <div class="trust-title">Verified Members</div>
+          <div class="trust-desc">Our team reviews all Business accounts. Blue-tick and gold-crown badges confirm verified identities.</div>
+        </div>
+        <div class="trust-card reveal" style="transition-delay:0.3s">
+          <div class="trust-icon">🛡️</div>
+          <div class="trust-title">Zero Scam Tolerance</div>
+          <div class="trust-desc">We have a strict no-scam policy. Fraudulent accounts are permanently banned within 24 hours of reporting.</div>
+        </div>
+        <div class="trust-card reveal" style="transition-delay:0.4s">
+          <div class="trust-icon">💳</div>
+          <div class="trust-title">Secure Payments</div>
+          <div class="trust-desc">Payments processed via Pesapal — PCI-DSS compliant, supporting mobile money, Visa, and Mastercard.</div>
+        </div>
+        <div class="trust-card reveal" style="transition-delay:0.5s">
+          <div class="trust-icon">🌍</div>
+          <div class="trust-title">Community Guidelines</div>
+          <div class="trust-desc">A respectful, professional community. We enforce clear guidelines to keep Elite Members a premium space.</div>
+        </div>
+        <div class="trust-card reveal" style="transition-delay:0.6s">
+          <div class="trust-icon">🔄</div>
+          <div class="trust-title">24/7 Support</div>
+          <div class="trust-desc">Our team is always available via chat and email. Average response time: under 2 hours.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER / WAITLIST ===== -->
+  <section class="section newsletter-section" id="waitlist">
+    <div class="container">
+      <div class="newsletter-inner reveal">
+        <div class="section-tag">✦ Early Access</div>
+        <h2>Get Early Access & <span class="gradient-text">Exclusive Perks</span></h2>
+        <p>Join the waitlist for our upcoming features: AI trading assistant, copy trading, and the Elite Members mobile app. First 500 get lifetime discounts.</p>
+        <form class="newsletter-form" onsubmit="submitWaitlist(event)">
+          <input type="email" class="newsletter-input" placeholder="Enter your email address" required id="waitlistEmail" />
+          <button type="submit" class="newsletter-btn">🚀 Get Early Access</button>
+        </form>
+        <p class="newsletter-note">🔒 No spam, ever. Unsubscribe anytime. Join 3,400+ people on the waitlist.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-brand-logo">
+            <img src="https://img.icons8.com/color/36/crown.png" alt="Elite Members" />
+            <span class="gradient-text">Elite Members</span>
+          </div>
+          <p>Africa's premier community platform for creators, traders, and entrepreneurs. Connect. Create. Conquer.</p>
+          <div class="footer-socials">
+            <a href="https://twitter.com/traderderick" class="footer-social" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://instagram.com/traderderick" class="footer-social" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/in/traderderick" class="footer-social" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+            <a href="https://t.me/traderderick" class="footer-social" target="_blank" rel="noopener"><i class="fab fa-telegram"></i></a>
+            <a href="https://youtube.com/@traderderick" class="footer-social" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+            <a href="https://tiktok.com/@traderderick" class="footer-social" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <a href="pages/feed.html">Community Feed</a>
+          <a href="pages/channels.html">Channels</a>
+          <a href="pages/marketplace.html">Marketplace</a>
+          <a href="pages/creatorlab.html">Creator Lab</a>
+          <a href="pages/events.html">Events</a>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="#founder">About Us</a>
+          <a href="#founder">Our Mission</a>
+          <a href="#testimonials">Success Stories</a>
+          <a href="mailto:hello@elitemembers.africa">Contact</a>
+          <a href="#waitlist">Press</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Community Guidelines</a>
+          <a href="#">Cookie Policy</a>
+          <a href="#">Refund Policy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Elite Members. Made with ❤️ in Uganda 🇺🇬 for Africa 🌍</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="mailto:hello@elitemembers.africa">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // ===== NAVBAR SCROLL =====
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+      document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+    });
+
+    // ===== SCROLL REVEAL =====
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+    // ===== COUNTER ANIMATION =====
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !e.target.dataset.done) {
+          e.target.dataset.done = '1';
+          const target = parseInt(e.target.dataset.target);
+          const suffix = e.target.dataset.suffix || '';
+          let start = 0;
+          const step = target / 60;
+          const tick = () => {
+            start = Math.min(start + step, target);
+            if (target >= 1000) {
+              e.target.textContent = (start >= 1000 ? (start/1000).toFixed(1) + 'K' : Math.round(start)) + suffix.replace('K+','') + (suffix.includes('K+') ? '+' : '');
+            } else {
+              e.target.textContent = Math.round(start) + suffix;
+            }
+            if (start < target) requestAnimationFrame(tick);
+          };
+          tick();
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
+
+    // ===== FAQ =====
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    }
+
+    // ===== PREVIEW TABS =====
+    const previewData = {
+      feed: {
+        url: 'elitemembers.app/feed',
+        html: `
+          <div class="mock-post">
+            <div class="mock-header"><img src="https://i.pravatar.cc/36?img=22" class="mock-avatar"/><div><div class="mock-name">Sarah Mwangi ⚡</div><div class="mock-time">5 min ago</div></div></div>
+            <div class="mock-text">🚨 XAU/USD BUY — Entry 2,315 | TP 2,340 | SL 2,298. Clean H4 setup. Risk 1-2% only. 📈 #GoldTrading</div>
+            <div class="mock-actions"><span class="mock-action" style="color:#ef4444"><i class="fa fa-heart"></i> 147</span><span class="mock-action"><i class="fa fa-comment"></i> 38</span><span class="mock-action"><i class="fa fa-retweet"></i> 22</span></div>
+          </div>
+          <div class="mock-post">
+            <div class="mock-header"><img src="https://i.pravatar.cc/36?img=11" class="mock-avatar"/><div><div class="mock-name">Kofi Acheampong 🏆</div><div class="mock-time">1h ago</div></div></div>
+            <div class="mock-text">Closed a $15K deal from a connection here on Elite Members. Your network IS your net worth 🔥 #EliteMembers</div>
+            <div class="mock-actions"><span class="mock-action" style="color:#ef4444"><i class="fa fa-heart"></i> 312</span><span class="mock-action"><i class="fa fa-comment"></i> 94</span></div>
+          </div>`
+      },
+      signals: {
+        url: 'elitemembers.app/channels',
+        html: `
+          <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:14px;padding:16px;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><div style="width:8px;height:8px;background:#10b981;border-radius:50%;animation:pulse 1s infinite"></div><span style="font-size:13px;font-weight:700;">🔴 LIVE — XAU/USD BUY Signal</span></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;">
+              <div><div style="font-size:10px;color:var(--muted);">Direction</div><div style="font-weight:700;color:#10b981;">BUY</div></div>
+              <div><div style="font-size:10px;color:var(--muted);">Entry</div><div style="font-weight:700;">2,315</div></div>
+              <div><div style="font-size:10px;color:var(--muted);">TP</div><div style="font-weight:700;color:#10b981;">2,340</div></div>
+              <div><div style="font-size:10px;color:var(--muted);">SL</div><div style="font-weight:700;color:#ef4444;">2,298</div></div>
+            </div>
+          </div>
+          <div style="background:rgba(74,111,255,0.08);border:1px solid rgba(74,111,255,0.25);border-radius:14px;padding:16px;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:12px;">📊 BTC/USD — Analysis Update</div>
+            <div style="font-size:13px;color:var(--muted);">Bitcoin holding above 200 EMA weekly. Bullish structure intact. Target $72K if 4H closes above $68,500. Watch volume. 📈</div>
+          </div>`
+      },
+      market: {
+        url: 'elitemembers.app/marketplace',
+        html: `
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="background:var(--surface2);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+              <div style="height:80px;background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(74,111,255,0.1));display:flex;align-items:center;justify-content:center;font-size:32px;">📈</div>
+              <div style="padding:10px;"><div style="font-size:12px;font-weight:700;">Gold Trading Blueprint</div><div style="font-size:14px;font-weight:800;color:var(--gold);">$49</div></div>
+            </div>
+            <div style="background:var(--surface2);border-radius:12px;overflow:hidden;border:1px solid var(--border);">
+              <div style="height:80px;background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(74,111,255,0.1));display:flex;align-items:center;justify-content:center;font-size:32px;">🤖</div>
+              <div style="padding:10px;"><div style="font-size:12px;font-weight:700;">EA Trading Bot MT4/5</div><div style="font-size:14px;font-weight:800;color:var(--gold);">$89</div></div>
+            </div>
+            <div style="background:linear-gradient(135deg,#1a1a3e,#2d2d8e);border-radius:12px;padding:12px;grid-column:1/-1;border:1px solid rgba(74,111,255,0.3);">
+              <div style="font-size:11px;color:var(--gold);font-weight:700;margin-bottom:6px;">⭐ FEATURED</div>
+              <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;">Forex Mastery Program 2026</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:18px;font-weight:800;color:var(--gold);">$149</span><span style="background:var(--gold);color:#0a0a1a;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;">Enroll →</span></div>
+            </div>
+          </div>`
+      },
+      creator: {
+        url: 'elitemembers.app/creator-lab',
+        html: `
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+            <div style="background:var(--surface2);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border);"><div style="font-size:20px;font-weight:900;color:var(--gold);">$820</div><div style="font-size:11px;color:var(--muted);">Earnings this month</div></div>
+            <div style="background:var(--surface2);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border);"><div style="font-size:20px;font-weight:900;color:#10b981;">3.2K</div><div style="font-size:11px;color:var(--muted);">Followers</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="background:rgba(245,200,66,0.06);border:1px solid rgba(245,200,66,0.2);border-radius:10px;padding:12px;text-align:center;cursor:pointer;"><div style="font-size:20px;">📝</div><div style="font-size:12px;font-weight:700;">Post Creator</div></div>
+            <div style="background:rgba(74,111,255,0.06);border:1px solid rgba(74,111,255,0.2);border-radius:10px;padding:12px;text-align:center;cursor:pointer;"><div style="font-size:20px;">📡</div><div style="font-size:12px;font-weight:700;">Signal Publisher</div></div>
+            <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:12px;text-align:center;cursor:pointer;"><div style="font-size:20px;">🎓</div><div style="font-size:12px;font-weight:700;">Course Builder</div></div>
+            <div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius:10px;padding:12px;text-align:center;cursor:pointer;"><div style="font-size:20px;">📊</div><div style="font-size:12px;font-weight:700;">Analytics Pro</div></div>
+          </div>`
+      },
+      analytics: {
+        url: 'elitemembers.app/analytics',
+        html: `
+          <div style="margin-bottom:14px;display:flex;gap:10px;">
+            <div style="flex:1;background:var(--surface2);border-radius:12px;padding:12px;border:1px solid var(--border);"><div style="font-size:10px;color:var(--muted);">Profile Views</div><div style="font-size:22px;font-weight:800;color:var(--blue);">12.4K</div><div style="font-size:11px;color:#10b981;">+24% ↑</div></div>
+            <div style="flex:1;background:var(--surface2);border-radius:12px;padding:12px;border:1px solid var(--border);"><div style="font-size:10px;color:var(--muted);">Post Reach</div><div style="font-size:22px;font-weight:800;color:var(--gold);">48.2K</div><div style="font-size:11px;color:#10b981;">+61% ↑</div></div>
+          </div>
+          <div style="background:var(--surface2);border-radius:12px;padding:14px;border:1px solid var(--border);">
+            <div style="font-size:12px;font-weight:700;margin-bottom:10px;">Engagement — Last 7 Days</div>
+            <div style="display:flex;align-items:flex-end;gap:4px;height:50px;">
+              ${[40,60,45,80,65,90,100].map(h => `<div style="flex:1;border-radius:4px 4px 0 0;background:linear-gradient(to top,var(--blue),var(--purple));height:${h}%;opacity:0.8;"></div>`).join('')}
+            </div>
+            <div style="display:flex;gap:4px;margin-top:4px;">${['M','T','W','T','F','S','S'].map(d=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--muted);">${d}</div>`).join('')}</div>
+          </div>`
+      }
+    };
+
+    function setPreview(key, btn) {
+      document.querySelectorAll('.preview-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('previewUrl').textContent = previewData[key].url;
+      document.getElementById('previewContent').innerHTML = previewData[key].html;
+    }
+
+    // ===== WAITLIST =====
+    function submitWaitlist(e) {
+      e.preventDefault();
+      const email = document.getElementById('waitlistEmail').value;
+      const btn = e.target.querySelector('button');
+      btn.textContent = '✅ You\'re on the list!';
+      btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+      btn.disabled = true;
+      document.getElementById('waitlistEmail').value = '';
+      document.getElementById('waitlistEmail').placeholder = 'Thanks! We\'ll be in touch.';
+    }
+  </script>
+</body>
+</html>
