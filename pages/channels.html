@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Channels — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .channels-wrap { max-width: 480px; margin: 0 auto; padding: 12px 12px 100px; }
+
+    .live-ticker { background: linear-gradient(135deg, #1a1a3e, #2d2d8e); border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; overflow: hidden; }
+    .ticker-label { font-size: 10px; font-weight: 700; color: #f59e0b; letter-spacing: 2px; margin-bottom: 8px; }
+    .ticker-scroll { display: flex; gap: 20px; animation: ticker 20s linear infinite; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ticker-item { display: flex; align-items: center; gap: 8px; flex-shrink: 0; white-space: nowrap; }
+    .ticker-pair { font-size: 12px; font-weight: 700; color: #fff; }
+    .ticker-price { font-size: 12px; color: #ccc; }
+    .ticker-change { font-size: 11px; font-weight: 700; }
+    .ticker-change.up { color: #10b981; }
+    .ticker-change.down { color: #ef4444; }
+
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .section-header h3 { font-size: 16px; font-weight: 800; color: var(--text); }
+
+    /* Channel cards */
+    .channel-card { background: var(--surface); border-radius: 16px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 10px var(--shadow); border: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start; }
+    .channel-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+    .channel-info { flex: 1; }
+    .channel-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+    .channel-live { font-size: 10px; background: #ef4444; color: #fff; padding: 2px 8px; border-radius: 10px; font-weight: 700; animation: pulse-dot 1.5s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .channel-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; }
+    .channel-footer { display: flex; justify-content: space-between; align-items: center; }
+    .channel-members { font-size: 12px; color: var(--text-muted); }
+    .channel-btn { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border: none; padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .channel-btn.joined { background: var(--bg); color: var(--accent); border: 1.5px solid var(--accent); }
+
+    /* Signal alert */
+    .signal-alert { background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.04)); border: 1px solid rgba(16,185,129,0.3); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+    .signal-alert-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .signal-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; animation: pulse-dot 1s infinite; }
+    .signal-alert-title { font-size: 13px; font-weight: 700; color: var(--text); }
+    .signal-alert-time { font-size: 11px; color: var(--text-muted); margin-left: auto; }
+    .signal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; }
+    .sig-item { }
+    .sig-label { font-size: 10px; color: var(--text-muted); font-weight: 600; }
+    .sig-value { font-size: 13px; font-weight: 700; color: var(--text); margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <button class="menu-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+    <span style="font-size:16px;font-weight:800;color:var(--text);">Channels</span>
+    <div style="display:flex;gap:8px;">
+      <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+      <button class="icon-btn"><i class="fa fa-bell"></i></button>
+    </div>
+  </header>
+
+  <div class="channels-wrap">
+
+    <!-- Live Ticker -->
+    <div class="live-ticker animate-fade">
+      <div class="ticker-label">📡 LIVE MARKET</div>
+      <div class="ticker-scroll" id="ticker">
+        <div class="ticker-item"><span class="ticker-pair">XAU/USD</span><span class="ticker-price">2,315.40</span><span class="ticker-change up">+0.82%</span></div>
+        <div class="ticker-item"><span class="ticker-pair">EUR/USD</span><span class="ticker-price">1.0852</span><span class="ticker-change down">-0.14%</span></div>
+        <div class="ticker-item"><span class="ticker-pair">BTC/USD</span><span class="ticker-price">67,420</span><span class="ticker-change up">+2.31%</span></div>
+        <div class="ticker-item"><span class="ticker-pair">ETH/USD</span><span class="ticker-price">3,580</span><span class="ticker-change up">+1.74%</span></div>
+        <div class="ticker-item"><span class="ticker-pair">GBP/USD</span><span class="ticker-price">1.2741</span><span class="ticker-change down">-0.22%</span></div>
+        <div class="ticker-item"><span class="ticker-pair">USD/JPY</span><span class="ticker-price">154.82</span><span class="ticker-change up">+0.41%</span></div>
+        <!-- Duplicate for infinite scroll -->
+        <div class="ticker-item"><span class="ticker-pair">XAU/USD</span><span class="ticker-price">2,315.40</span><span class="ticker-change up">+0.82%</span></div>
+        <div class="ticker-item"><span class="ticker-pair">EUR/USD</span><span class="ticker-price">1.0852</span><span class="ticker-change down">-0.14%</span></div>
+        <div class="ticker-item"><span class="ticker-pair">BTC/USD</span><span class="ticker-price">67,420</span><span class="ticker-change up">+2.31%</span></div>
+        <div class="ticker-item"><span class="ticker-pair">ETH/USD</span><span class="ticker-price">3,580</span><span class="ticker-change up">+1.74%</span></div>
+      </div>
+    </div>
+
+    <!-- Live Signals -->
+    <div class="section-header animate-fade"><h3>🚨 Live Signals</h3><span style="font-size:12px;color:var(--text-muted);">3 active</span></div>
+
+    <div class="signal-alert animate-fade">
+      <div class="signal-alert-header">
+        <div class="signal-dot"></div>
+        <span class="signal-alert-title">XAU/USD — BUY Signal by Trader Derick</span>
+        <span class="signal-alert-time">2m ago</span>
+      </div>
+      <div class="signal-grid">
+        <div class="sig-item"><div class="sig-label">Direction</div><div class="sig-value" style="color:#10b981">BUY</div></div>
+        <div class="sig-item"><div class="sig-label">Entry</div><div class="sig-value">2,315</div></div>
+        <div class="sig-item"><div class="sig-label">TP</div><div class="sig-value" style="color:#10b981">2,340</div></div>
+        <div class="sig-item"><div class="sig-label">SL</div><div class="sig-value" style="color:#ef4444">2,298</div></div>
+      </div>
+    </div>
+
+    <div class="signal-alert animate-fade" style="background:rgba(245,158,11,0.06);border-color:rgba(245,158,11,0.3);">
+      <div class="signal-alert-header">
+        <div class="signal-dot" style="background:#f59e0b;"></div>
+        <span class="signal-alert-title">BTC/USD — BUY Signal by Sarah M.</span>
+        <span class="signal-alert-time">15m ago</span>
+      </div>
+      <div class="signal-grid">
+        <div class="sig-item"><div class="sig-label">Direction</div><div class="sig-value" style="color:#10b981">BUY</div></div>
+        <div class="sig-item"><div class="sig-label">Entry</div><div class="sig-value">67,200</div></div>
+        <div class="sig-item"><div class="sig-label">TP</div><div class="sig-value" style="color:#10b981">69,500</div></div>
+        <div class="sig-item"><div class="sig-label">SL</div><div class="sig-value" style="color:#ef4444">65,800</div></div>
+      </div>
+    </div>
+
+    <!-- Channels -->
+    <div class="section-header animate-fade"><h3>📡 Join Channels</h3><span class="see-all" style="font-size:13px;color:var(--accent);font-weight:600;cursor:pointer;">Explore</span></div>
+
+    <div class="channel-card animate-fade">
+      <div class="channel-icon" style="background:linear-gradient(135deg,#f59e0b22,#f59e0b44);">📈</div>
+      <div class="channel-info">
+        <div class="channel-name">Trader Derick Signals <span class="channel-live">LIVE</span></div>
+        <div class="channel-desc">Official signals channel. Daily forex, gold & crypto signals with full analysis. Win rate 74%.</div>
+        <div class="channel-footer">
+          <span class="channel-members">👥 2,841 members</span>
+          <button class="channel-btn joined">✓ Joined</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="channel-card animate-fade">
+      <div class="channel-icon" style="background:linear-gradient(135deg,#10b98122,#10b98144);">₿</div>
+      <div class="channel-info">
+        <div class="channel-name">Crypto Elite</div>
+        <div class="channel-desc">Bitcoin, Ethereum, Altcoins. Analysis, news, and top picks from elite crypto traders across Africa.</div>
+        <div class="channel-footer">
+          <span class="channel-members">👥 1,204 members</span>
+          <button class="channel-btn" onclick="joinChannel(this)">Join</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="channel-card animate-fade">
+      <div class="channel-icon" style="background:linear-gradient(135deg,#2d2d8e22,#7c3aed44);">🏆</div>
+      <div class="channel-info">
+        <div class="channel-name">Business Builders <span class="channel-live" style="background:#7c3aed">VIP</span></div>
+        <div class="channel-desc">For Business Plan members. Exclusive deals, opportunities, networking, and high-level business discussions.</div>
+        <div class="channel-footer">
+          <span class="channel-members">👥 487 members</span>
+          <button class="channel-btn joined">✓ Joined</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="channel-card animate-fade">
+      <div class="channel-icon" style="background:linear-gradient(135deg,#ef444422,#f59e0b22);">🌍</div>
+      <div class="channel-info">
+        <div class="channel-name">Africa Markets</div>
+        <div class="channel-desc">Uganda, Kenya, Ghana, Nigeria market insights. Local stocks, currency news and investment opportunities.</div>
+        <div class="channel-footer">
+          <span class="channel-members">👥 923 members</span>
+          <button class="channel-btn" onclick="joinChannel(this)">Join</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="channel-card animate-fade">
+      <div class="channel-icon" style="background:linear-gradient(135deg,#10b98122,#2d2d8e22);">🎓</div>
+      <div class="channel-info">
+        <div class="channel-name">Trading Academy</div>
+        <div class="channel-desc">Free learning resources, webinars, and trading lessons for beginners to advanced traders.</div>
+        <div class="channel-footer">
+          <span class="channel-members">👥 3,102 members</span>
+          <button class="channel-btn" onclick="joinChannel(this)">Join</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item active"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <script>
+    function joinChannel(btn) {
+      btn.textContent = '✓ Joined';
+      btn.classList.add('joined');
+    }
+  </script>
+</body>
+</html>
