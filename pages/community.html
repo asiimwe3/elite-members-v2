@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .comm-wrap { max-width: 480px; margin: 0 auto; padding: 12px 12px 100px; }
+    .search-bar { position: relative; margin-bottom: 14px; }
+    .search-bar i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    .search-bar input { width: 100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: 25px; padding: 11px 16px 11px 40px; font-size: 14px; color: var(--text); outline: none; box-shadow: 0 2px 8px var(--shadow); }
+
+    .leaderboard { background: linear-gradient(135deg, #1a1a3e, #2d2d8e); border-radius: 20px; padding: 16px; margin-bottom: 16px; color: #fff; }
+    .lb-title { font-size: 14px; font-weight: 700; margin-bottom: 14px; display: flex; justify-content: space-between; }
+    .lb-podium { display: flex; justify-content: center; align-items: flex-end; gap: 8px; margin-bottom: 4px; }
+    .lb-place { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .lb-avatar { border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.4); }
+    .lb-crown { font-size: 16px; }
+    .lb-name { font-size: 11px; font-weight: 600; text-align: center; }
+    .lb-score { font-size: 11px; opacity: 0.7; }
+    .lb-bar { background: rgba(255,255,255,0.15); border-radius: 8px 8px 0 0; width: 60px; display: flex; align-items: flex-end; justify-content: center; }
+
+    .member-card { background: var(--surface); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px var(--shadow); border: 1px solid var(--border); }
+    .member-rank { font-size: 18px; font-weight: 800; color: var(--text-muted); min-width: 28px; text-align: center; }
+    .member-avatar { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0; }
+    .member-info { flex: 1; }
+    .member-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 5px; }
+    .member-badge { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 700; }
+    .member-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .member-pts { font-size: 16px; font-weight: 800; color: var(--accent); }
+    .follow-btn { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border: none; padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+    .follow-btn.following { background: var(--bg); color: var(--accent); border: 1.5px solid var(--accent); }
+
+    .stats-banner { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+    .stat-box { background: var(--surface); border-radius: 14px; padding: 14px; text-align: center; box-shadow: 0 2px 8px var(--shadow); border: 1px solid var(--border); }
+    .stat-box-num { font-size: 22px; font-weight: 800; color: var(--accent); }
+    .stat-box-lbl { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <button class="menu-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+    <span style="font-size:16px;font-weight:800;color:var(--text);">Community</span>
+    <div style="display:flex;gap:8px;">
+      <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+      <button class="icon-btn"><i class="fa fa-user-plus"></i></button>
+    </div>
+  </header>
+
+  <div class="comm-wrap">
+
+    <!-- Search -->
+    <div class="search-bar animate-fade">
+      <i class="fa fa-search"></i>
+      <input placeholder="Search members..." />
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-banner animate-fade">
+      <div class="stat-box"><div class="stat-box-num">12.4K</div><div class="stat-box-lbl">Members</div></div>
+      <div class="stat-box"><div class="stat-box-num">847</div><div class="stat-box-lbl">Online Now</div></div>
+      <div class="stat-box"><div class="stat-box-num">🌍 18</div><div class="stat-box-lbl">Countries</div></div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="leaderboard animate-fade">
+      <div class="lb-title"><span>🏆 Top Members</span><span style="font-size:12px;opacity:0.7;">This Week</span></div>
+      <div class="lb-podium">
+        <!-- 2nd place -->
+        <div class="lb-place">
+          <img src="https://i.pravatar.cc/44?img=22" class="lb-avatar" style="width:44px;height:44px;" />
+          <div class="lb-name">Sarah M.</div>
+          <div class="lb-score">4,820 pts</div>
+          <div class="lb-bar" style="height:60px;"><span style="font-size:18px;padding-bottom:6px;">🥈</span></div>
+        </div>
+        <!-- 1st place -->
+        <div class="lb-place">
+          <div class="lb-crown">👑</div>
+          <img src="https://base44.app/api/apps/69fc978092ebf62a775511bf/files/mp/public/69fc978092ebf62a775511bf/a882eada8_founder.jpg" class="lb-avatar" style="width:56px;height:56px;border-color:#f59e0b;" />
+          <div class="lb-name">Trader D.</div>
+          <div class="lb-score">9,240 pts</div>
+          <div class="lb-bar" style="height:80px;background:rgba(245,158,11,0.3);"><span style="font-size:18px;padding-bottom:6px;">🥇</span></div>
+        </div>
+        <!-- 3rd place -->
+        <div class="lb-place">
+          <img src="https://i.pravatar.cc/44?img=11" class="lb-avatar" style="width:40px;height:40px;" />
+          <div class="lb-name">Kofi A.</div>
+          <div class="lb-score">3,910 pts</div>
+          <div class="lb-bar" style="height:44px;"><span style="font-size:18px;padding-bottom:6px;">🥉</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Members List -->
+    <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:12px;" class="animate-fade">👥 All Members</div>
+
+    <div class="member-card animate-fade">
+      <div class="member-rank">1</div>
+      <img src="https://base44.app/api/apps/69fc978092ebf62a775511bf/files/mp/public/69fc978092ebf62a775511bf/a882eada8_founder.jpg" class="member-avatar" />
+      <div class="member-info">
+        <div class="member-name">Trader Derick <span class="member-badge" style="background:rgba(245,158,11,0.2);color:#f59e0b;">👑 Founder</span></div>
+        <div class="member-sub">@traderderick · Uganda 🇺🇬</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="member-pts">9,240</div>
+        <div style="font-size:10px;color:var(--text-muted);">points</div>
+      </div>
+    </div>
+
+    <div class="member-card animate-fade">
+      <div class="member-rank">2</div>
+      <img src="https://i.pravatar.cc/46?img=22" class="member-avatar" />
+      <div class="member-info">
+        <div class="member-name">Sarah Mwangi <span class="member-badge" style="background:rgba(124,58,237,0.15);color:#7c3aed;">⚡ Elite</span></div>
+        <div class="member-sub">@sarahmwangi · Kenya 🇰🇪</div>
+      </div>
+      <button class="follow-btn following" onclick="toggleFollow(this)">✓ Following</button>
+    </div>
+
+    <div class="member-card animate-fade">
+      <div class="member-rank">3</div>
+      <img src="https://i.pravatar.cc/46?img=11" class="member-avatar" />
+      <div class="member-info">
+        <div class="member-name">Kofi Acheampong <span class="member-badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;">🏆 Business</span></div>
+        <div class="member-sub">@kofitrader · Ghana 🇬🇭</div>
+      </div>
+      <button class="follow-btn" onclick="toggleFollow(this)">Follow</button>
+    </div>
+
+    <div class="member-card animate-fade">
+      <div class="member-rank">4</div>
+      <img src="https://i.pravatar.cc/46?img=44" class="member-avatar" />
+      <div class="member-info">
+        <div class="member-name">Ama Darko <span class="member-badge" style="background:rgba(124,58,237,0.15);color:#7c3aed;">⚡ Elite</span></div>
+        <div class="member-sub">@amadarko · Ghana 🇬🇭</div>
+      </div>
+      <button class="follow-btn following" onclick="toggleFollow(this)">✓ Following</button>
+    </div>
+
+    <div class="member-card animate-fade">
+      <div class="member-rank">5</div>
+      <img src="https://i.pravatar.cc/46?img=55" class="member-avatar" />
+      <div class="member-info">
+        <div class="member-name">Felix Osei</div>
+        <div class="member-sub">@felixo · Nigeria 🇳🇬</div>
+      </div>
+      <button class="follow-btn" onclick="toggleFollow(this)">Follow</button>
+    </div>
+
+    <div class="member-card animate-fade">
+      <div class="member-rank">6</div>
+      <img src="https://i.pravatar.cc/46?img=33" class="member-avatar" />
+      <div class="member-info">
+        <div class="member-name">John Banda</div>
+        <div class="member-sub">@johnbanda · Zambia 🇿🇲</div>
+      </div>
+      <button class="follow-btn" onclick="toggleFollow(this)">Follow</button>
+    </div>
+
+    <div class="member-card animate-fade">
+      <div class="member-rank">7</div>
+      <img src="https://i.pravatar.cc/46?img=66" class="member-avatar" />
+      <div class="member-info">
+        <div class="member-name">Amira Hassan</div>
+        <div class="member-sub">@amiratrader · Egypt 🇪🇬</div>
+      </div>
+      <button class="follow-btn" onclick="toggleFollow(this)">Follow</button>
+    </div>
+
+    <!-- Invite CTA -->
+    <div style="background:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(45,45,142,0.06));border:1px solid rgba(124,58,237,0.2);border-radius:16px;padding:18px;text-align:center;margin-top:8px;" class="animate-fade">
+      <div style="font-size:24px;margin-bottom:8px;">🌍</div>
+      <div style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px;">Grow the Community</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Invite friends and earn bonus points for every member who joins Elite Members.</div>
+      <button onclick="shareInvite()" style="background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;padding:12px 28px;border-radius:25px;font-weight:700;font-size:14px;cursor:pointer;">📤 Invite Friends</button>
+    </div>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <script>
+    function toggleFollow(btn) {
+      const following = btn.classList.contains('following');
+      btn.classList.toggle('following');
+      btn.textContent = following ? 'Follow' : '✓ Following';
+    }
+    function shareInvite() {
+      if (navigator.share) {
+        navigator.share({ title: 'Join Elite Members!', text: 'Join me on Elite Members — the platform for traders & entrepreneurs in Africa 🌍🔥', url: 'https://asiimwe3.github.io/elite-members' });
+      } else {
+        navigator.clipboard.writeText('https://asiimwe3.github.io/elite-members');
+        alert('Link copied! Share it with your network 🚀');
+      }
+    }
+  </script>
+</body>
+</html>
