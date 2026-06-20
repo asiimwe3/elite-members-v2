@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discover — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .discover-wrap { max-width: 480px; margin: 0 auto; padding: 12px 12px 100px; }
+    .search-wrap { position: relative; margin-bottom: 14px; }
+    .search-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    .search-input { width: 100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: 25px; padding: 12px 16px 12px 42px; font-size: 15px; color: var(--text); outline: none; box-shadow: 0 2px 8px var(--shadow); }
+    .search-input:focus { border-color: var(--accent); }
+
+    .trending-tags { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; margin-bottom: 16px; }
+    .trending-tags::-webkit-scrollbar { display: none; }
+    .trend-tag { padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1.5px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
+    .trend-tag:hover, .trend-tag.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .section-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .section-title span { font-size: 13px; color: var(--accent); font-weight: 600; cursor: pointer; }
+
+    .trending-card { background: linear-gradient(135deg, var(--surface), var(--bg)); border-radius: 16px; padding: 14px; margin-bottom: 10px; display: flex; gap: 12px; border: 1px solid var(--border); box-shadow: 0 2px 8px var(--shadow); cursor: pointer; }
+    .trend-rank { font-size: 20px; font-weight: 900; color: var(--border); width: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .trend-rank.gold { color: #f59e0b; }
+    .trend-rank.silver { color: #9ca3af; }
+    .trend-rank.bronze { color: #b45309; }
+    .trend-info { flex: 1; }
+    .trend-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .trend-sub { font-size: 12px; color: var(--text-muted); }
+    .trend-posts { font-size: 12px; color: var(--accent); font-weight: 700; }
+
+    .people-card { background: var(--surface); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 12px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: 0 2px 6px var(--shadow); }
+    .people-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0; }
+    .people-info { flex: 1; }
+    .people-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 5px; }
+    .people-badge { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 700; background: rgba(124,58,237,0.15); color: var(--accent); }
+    .people-role { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .follow-btn { padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; }
+    .follow-btn.primary { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; }
+    .follow-btn.following { background: var(--bg); color: var(--accent); border: 1.5px solid var(--accent); }
+
+    .topic-card { background: var(--surface); border-radius: 14px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); box-shadow: 0 2px 6px var(--shadow); }
+    .topic-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .topic-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .topic-name { font-size: 15px; font-weight: 700; color: var(--text); }
+    .topic-count { font-size: 12px; color: var(--text-muted); }
+    .topic-preview { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; }
+    .topic-join-btn { padding: 8px 18px; border-radius: 20px; font-size: 12px; font-weight: 700; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <button class="menu-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+    <span style="font-size:16px;font-weight:800;color:var(--text);">Discover 🔍</span>
+    <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+  </header>
+
+  <div class="discover-wrap">
+
+    <!-- Search -->
+    <div class="search-wrap animate-fade">
+      <i class="fa fa-search"></i>
+      <input class="search-input" placeholder="Search people, topics, signals..." id="searchInput" oninput="doSearch(this.value)" />
+    </div>
+
+    <!-- Trending tags -->
+    <div class="trending-tags animate-fade">
+      <button class="trend-tag active" onclick="setTag(this)">#Forex</button>
+      <button class="trend-tag" onclick="setTag(this)">#Gold</button>
+      <button class="trend-tag" onclick="setTag(this)">#Bitcoin</button>
+      <button class="trend-tag" onclick="setTag(this)">#Africa</button>
+      <button class="trend-tag" onclick="setTag(this)">#Entrepreneur</button>
+      <button class="trend-tag" onclick="setTag(this)">#Crypto</button>
+      <button class="trend-tag" onclick="setTag(this)">#EliteMembers</button>
+      <button class="trend-tag" onclick="setTag(this)">#Signals</button>
+    </div>
+
+    <!-- Trending Topics -->
+    <div class="section-title animate-fade">🔥 Trending Topics <span>See all</span></div>
+
+    <div class="trending-card animate-fade">
+      <div class="trend-rank gold">1</div>
+      <div class="trend-info">
+        <div class="trend-name">#EliteMembers</div>
+        <div class="trend-sub">Community · Africa</div>
+      </div>
+      <div class="trend-posts">8.4K posts</div>
+    </div>
+    <div class="trending-card animate-fade">
+      <div class="trend-rank silver">2</div>
+      <div class="trend-info">
+        <div class="trend-name">#GoldTrading</div>
+        <div class="trend-sub">Forex · XAU/USD</div>
+      </div>
+      <div class="trend-posts">5.1K posts</div>
+    </div>
+    <div class="trending-card animate-fade">
+      <div class="trend-rank bronze">3</div>
+      <div class="trend-info">
+        <div class="trend-name">#Bitcoin2026</div>
+        <div class="trend-sub">Crypto · BTC</div>
+      </div>
+      <div class="trend-posts">3.8K posts</div>
+    </div>
+    <div class="trending-card animate-fade">
+      <div class="trend-rank">4</div>
+      <div class="trend-info">
+        <div class="trend-name">#AfricaRising</div>
+        <div class="trend-sub">Entrepreneurship</div>
+      </div>
+      <div class="trend-posts">2.9K posts</div>
+    </div>
+    <div class="trending-card animate-fade">
+      <div class="trend-rank">5</div>
+      <div class="trend-info">
+        <div class="trend-name">#CreatorEconomy</div>
+        <div class="trend-sub">Content · Monetization</div>
+      </div>
+      <div class="trend-posts">1.7K posts</div>
+    </div>
+
+    <!-- Suggested People -->
+    <div class="section-title animate-fade" style="margin-top:20px;">👥 People to Follow <span>See all</span></div>
+
+    <div class="people-card animate-fade">
+      <img src="https://base44.app/api/apps/69fc978092ebf62a775511bf/files/mp/public/69fc978092ebf62a775511bf/a882eada8_founder.jpg" class="people-avatar" />
+      <div class="people-info">
+        <div class="people-name">Trader Derick <span class="people-badge">👑 Founder</span></div>
+        <div class="people-role">CEO @ Elite Members · 3.2K followers</div>
+      </div>
+      <button class="follow-btn following" onclick="toggleFollow(this)">✓ Following</button>
+    </div>
+    <div class="people-card animate-fade">
+      <img src="https://i.pravatar.cc/48?img=22" class="people-avatar" />
+      <div class="people-info">
+        <div class="people-name">Sarah Mwangi <span class="people-badge">⚡ Elite</span></div>
+        <div class="people-role">Forex Trader · Kenya 🇰🇪 · 1.8K followers</div>
+      </div>
+      <button class="follow-btn primary" onclick="toggleFollow(this)">Follow</button>
+    </div>
+    <div class="people-card animate-fade">
+      <img src="https://i.pravatar.cc/48?img=11" class="people-avatar" />
+      <div class="people-info">
+        <div class="people-name">Kofi Acheampong <span class="people-badge">🏆 Business</span></div>
+        <div class="people-role">Entrepreneur · Ghana 🇬🇭 · 2.1K followers</div>
+      </div>
+      <button class="follow-btn primary" onclick="toggleFollow(this)">Follow</button>
+    </div>
+    <div class="people-card animate-fade">
+      <img src="https://i.pravatar.cc/48?img=44" class="people-avatar" />
+      <div class="people-info">
+        <div class="people-name">Ama Darko <span class="people-badge">⚡ Elite</span></div>
+        <div class="people-role">Content Creator · Ghana 🇬🇭 · 4.5K followers</div>
+      </div>
+      <button class="follow-btn primary" onclick="toggleFollow(this)">Follow</button>
+    </div>
+
+    <!-- Topics to Explore -->
+    <div class="section-title animate-fade" style="margin-top:20px;">💡 Topics to Explore <span>See all</span></div>
+
+    <div class="topic-card animate-fade">
+      <div class="topic-header">
+        <div class="topic-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(16,185,129,0.08));">📈</div>
+        <div>
+          <div class="topic-name">Forex & Trading</div>
+          <div class="topic-count">6,240 members · 12K posts</div>
+        </div>
+        <button class="topic-join-btn" style="margin-left:auto;" onclick="this.textContent='✓ Joined';this.style.background='rgba(16,185,129,0.15)';this.style.color='#10b981';">Join</button>
+      </div>
+      <div class="topic-preview">Signals, market analysis, educational content, and live trading discussion from Africa's best traders.</div>
+    </div>
+
+    <div class="topic-card animate-fade">
+      <div class="topic-header">
+        <div class="topic-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(245,158,11,0.08));">🚀</div>
+        <div>
+          <div class="topic-name">Entrepreneurship</div>
+          <div class="topic-count">4,120 members · 8.2K posts</div>
+        </div>
+        <button class="topic-join-btn" style="margin-left:auto;" onclick="this.textContent='✓ Joined';this.style.background='rgba(16,185,129,0.15)';this.style.color='#10b981';">Join</button>
+      </div>
+      <div class="topic-preview">Business ideas, startup stories, marketing tips, and networking for African entrepreneurs at every level.</div>
+    </div>
+
+    <div class="topic-card animate-fade">
+      <div class="topic-header">
+        <div class="topic-icon" style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(74,111,255,0.08));">🎨</div>
+        <div>
+          <div class="topic-name">Content Creation</div>
+          <div class="topic-count">3,890 members · 9.1K posts</div>
+        </div>
+        <button class="topic-join-btn" style="margin-left:auto;" onclick="this.textContent='✓ Joined';this.style.background='rgba(16,185,129,0.15)';this.style.color='#10b981';">Join</button>
+      </div>
+      <div class="topic-preview">Grow on YouTube, Instagram, TikTok, and beyond. Tips, collabs, and monetization strategies for creators.</div>
+    </div>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <script>
+    function setTag(el) {
+      document.querySelectorAll('.trend-tag').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+    function toggleFollow(btn) {
+      const f = btn.classList.contains('following');
+      btn.classList.toggle('following', !f);
+      btn.classList.toggle('primary', f);
+      btn.textContent = f ? 'Follow' : '✓ Following';
+    }
+    function doSearch(val) {
+      // Live search placeholder
+      if (val.length > 2) {
+        // Would query Supabase when connected
+      }
+    }
+  </script>
+</body>
+</html>
