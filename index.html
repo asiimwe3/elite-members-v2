@@ -432,6 +432,7 @@
       .hero { padding: 100px 20px 60px; }
     }
   </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -1008,7 +1009,7 @@
         </div>
         <div class="footer-col">
           <h4>Platform</h4>
-          <a href="pages/feed.html">Community Feed</a>
+          <a href="pages/login.html">Community Feed</a>
           <a href="pages/channels.html">Channels</a>
           <a href="pages/marketplace.html">Marketplace</a>
           <a href="pages/creatorlab.html">Creator Lab</a>
@@ -1197,3 +1198,17 @@
   </script>
 </body>
 </html>
+<script>
+// Check session on landing page — redirect to feed if already logged in
+(async () => {
+  const sb = window.supabase.createClient(
+    'https://eiyexnuhqdscomilwpqg.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpeWV4bnVocWRzY29taWx3cHFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY1MzI4NTcsImV4cCI6MjA2MjEwODg1N30.tQCwDfOWB-sMTPCVKxUhMvXNpkQ60m3iEz39DP_VUC4'
+  );
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    window.location.href = 'pages/feed.html';
+  }
+  window.signOut = async () => { await sb.auth.signOut(); window.location.reload(); };
+})();
+</script>
