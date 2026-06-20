@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .profile-wrap { max-width: 480px; margin: 0 auto; padding-bottom: 100px; }
+
+    .cover-photo { width: 100%; height: 160px; object-fit: cover; background: linear-gradient(135deg, #1a1a3e, #2d2d8e, #7c3aed); display: block; position: relative; }
+    .cover-grad { width: 100%; height: 160px; background: linear-gradient(135deg, #1a1a3e 0%, #2d2d8e 60%, #7c3aed 100%); position: relative; }
+    .cover-pattern { position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 10px); }
+
+    .profile-info { padding: 0 16px; position: relative; }
+    .profile-avatar-wrap { margin-top: -50px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .profile-avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid var(--surface); box-shadow: 0 4px 16px var(--shadow); }
+    .edit-btn { background: var(--surface); border: 1.5px solid var(--border); color: var(--text); padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+    .profile-name { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+    .verified-badge { color: #7c3aed; font-size: 18px; }
+    .profile-handle { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+    .profile-tier { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(239,68,68,0.1)); border: 1px solid rgba(245,158,11,0.4); color: #f59e0b; padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+    .profile-bio { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 12px; }
+    .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .profile-tag { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+
+    .profile-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--surface); border-radius: 16px; padding: 14px; box-shadow: 0 2px 10px var(--shadow); margin-bottom: 16px; }
+    .pstat { text-align: center; }
+    .pstat-num { font-size: 20px; font-weight: 800; color: var(--accent); }
+    .pstat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .pstat-divider { border-right: 1px solid var(--border); }
+
+    .profile-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 14px; }
+    .profile-tab { flex: 1; text-align: center; padding: 12px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+    .profile-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* Achievement badges */
+    .achievements { padding: 0 16px; margin-bottom: 16px; }
+    .ach-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .ach-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .ach-item { text-align: center; }
+    .ach-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 6px; }
+    .ach-name { font-size: 10px; color: var(--text-muted); font-weight: 600; }
+
+    /* My posts */
+    .my-posts { padding: 0 16px; }
+    .mini-post { background: var(--surface); border-radius: 14px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 8px var(--shadow); border: 1px solid var(--border); }
+    .mini-post-text { font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 10px; }
+    .mini-post-actions { display: flex; gap: 16px; }
+    .mini-action { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+
+    /* Portfolio section */
+    .portfolio-section { padding: 0 16px; }
+    .portfolio-card { background: linear-gradient(135deg, rgba(45,45,142,0.06), rgba(124,58,237,0.08)); border: 1px solid rgba(124,58,237,0.2); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+    .portfolio-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .portfolio-title { font-size: 16px; font-weight: 700; color: var(--text); }
+    .portfolio-change { font-size: 14px; font-weight: 700; color: #10b981; }
+    .portfolio-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .portfolio-row:last-child { border-bottom: none; }
+    .asset-name { color: var(--text); font-weight: 600; }
+    .asset-val { color: var(--text-muted); }
+    .asset-change { font-weight: 700; }
+    .asset-change.up { color: #10b981; }
+    .asset-change.down { color: #ef4444; }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <button class="menu-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+    <span style="font-size:15px;font-weight:700;color:var(--text);">My Profile</span>
+    <div style="display:flex;gap:6px;">
+      <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+      <button class="icon-btn"><i class="fa fa-ellipsis-v"></i></button>
+    </div>
+  </header>
+
+  <div class="profile-wrap">
+
+    <!-- Cover -->
+    <div class="cover-grad">
+      <div class="cover-pattern"></div>
+    </div>
+
+    <!-- Profile info -->
+    <div class="profile-info animate-fade">
+      <div class="profile-avatar-wrap">
+        <img src="https://base44.app/api/apps/69fc978092ebf62a775511bf/files/mp/public/69fc978092ebf62a775511bf/a882eada8_founder.jpg" class="profile-avatar" />
+        <button class="edit-btn"><i class="fa fa-pen" style="font-size:11px;margin-right:5px;"></i>Edit Profile</button>
+      </div>
+
+      <div class="profile-name">Trader Derick Asiimwe <i class="fa fa-circle-check verified-badge"></i></div>
+      <div class="profile-handle">@traderderick · Uganda 🇺🇬</div>
+      <div class="profile-tier">👑 Founder & CEO — Elite Members</div>
+      <div class="profile-bio">Visionary entrepreneur, forex trader & tech innovator. Building Africa's most powerful community for traders & entrepreneurs. 🌍📈</div>
+      <div class="profile-tags">
+        <span class="profile-tag">📈 Forex Trader</span>
+        <span class="profile-tag">💡 Entrepreneur</span>
+        <span class="profile-tag">🌍 Africa</span>
+        <span class="profile-tag">💻 Tech</span>
+        <span class="profile-tag">₿ Crypto</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="padding: 0 16px; margin-bottom: 16px;">
+      <div class="profile-stats animate-fade">
+        <div class="pstat pstat-divider">
+          <div class="pstat-num">48</div>
+          <div class="pstat-lbl">Posts</div>
+        </div>
+        <div class="pstat pstat-divider">
+          <div class="pstat-num">3.2K</div>
+          <div class="pstat-lbl">Followers</div>
+        </div>
+        <div class="pstat pstat-divider">
+          <div class="pstat-num">892</div>
+          <div class="pstat-lbl">Following</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">12K+</div>
+          <div class="pstat-lbl">Reach</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="achievements animate-fade">
+      <div class="ach-title">🏆 Achievements</div>
+      <div class="ach-grid">
+        <div class="ach-item">
+          <div class="ach-icon" style="background:linear-gradient(135deg,#f59e0b22,#f59e0b44);">👑</div>
+          <div class="ach-name">Founder</div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon" style="background:linear-gradient(135deg,#10b98122,#10b98144);">🔥</div>
+          <div class="ach-name">Top Creator</div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon" style="background:linear-gradient(135deg,#7c3aed22,#7c3aed44);">📈</div>
+          <div class="ach-name">Signal Pro</div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon" style="background:linear-gradient(135deg,#ef444422,#ef444444);">🌍</div>
+          <div class="ach-name">Community</div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon" style="background:linear-gradient(135deg,#2d2d8e22,#2d2d8e44);">💎</div>
+          <div class="ach-name">Elite</div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon" style="background:linear-gradient(135deg,#f59e0b22,#ef444422);">⚡</div>
+          <div class="ach-name">Early Bird</div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon" style="background:linear-gradient(135deg,#10b98122,#2d2d8e22);">🤝</div>
+          <div class="ach-name">Connector</div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon" style="background:rgba(200,200,200,0.2);">🔒</div>
+          <div class="ach-name" style="color:var(--border);">Locked</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="profile-tabs animate-fade">
+      <div class="profile-tab active" onclick="showTab('posts', this)">Posts</div>
+      <div class="profile-tab" onclick="showTab('portfolio', this)">Portfolio</div>
+      <div class="profile-tab" onclick="showTab('signals', this)">Signals</div>
+      <div class="profile-tab" onclick="showTab('media', this)">Media</div>
+    </div>
+
+    <!-- Posts Tab -->
+    <div id="tab-posts" class="my-posts animate-fade">
+      <div class="mini-post">
+        <div class="mini-post-text">🚨 LIVE SIGNAL — XAUUSD looking bullish on H4. Strong support at 2,310. Target 2,340+. Manage your risk. #Gold #Forex</div>
+        <div class="mini-post-actions">
+          <span class="mini-action"><i class="fa fa-heart" style="color:#ef4444"></i> 147</span>
+          <span class="mini-action"><i class="fa fa-comment"></i> 38</span>
+          <span class="mini-action"><i class="fa fa-retweet"></i> 22</span>
+          <span class="mini-action" style="margin-left:auto;font-size:12px;color:var(--text-muted);">2 min ago</span>
+        </div>
+      </div>
+      <div class="mini-post">
+        <div class="mini-post-text">Africa is the next frontier for fintech & crypto. If you're not building here, you're missing out. The opportunity is MASSIVE. 🌍🚀 #Africa #Fintech</div>
+        <div class="mini-post-actions">
+          <span class="mini-action"><i class="fa fa-heart" style="color:#ef4444"></i> 312</span>
+          <span class="mini-action"><i class="fa fa-comment"></i> 94</span>
+          <span class="mini-action"><i class="fa fa-retweet"></i> 156</span>
+          <span class="mini-action" style="margin-left:auto;font-size:12px;color:var(--text-muted);">Yesterday</span>
+        </div>
+      </div>
+      <div class="mini-post">
+        <div class="mini-post-text">Elite Members is now LIVE! 🎉 The platform for serious traders and entrepreneurs in Africa. Join us and level up. Link in bio.</div>
+        <div class="mini-post-actions">
+          <span class="mini-action"><i class="fa fa-heart" style="color:#ef4444"></i> 891</span>
+          <span class="mini-action"><i class="fa fa-comment"></i> 203</span>
+          <span class="mini-action"><i class="fa fa-retweet"></i> 445</span>
+          <span class="mini-action" style="margin-left:auto;font-size:12px;color:var(--text-muted);">3 days ago</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portfolio Tab -->
+    <div id="tab-portfolio" class="portfolio-section animate-fade" style="display:none;">
+      <div class="portfolio-card">
+        <div class="portfolio-header">
+          <div class="portfolio-title">My Portfolio</div>
+          <div class="portfolio-change">+34.2% ↑</div>
+        </div>
+        <div style="text-align:center;margin-bottom:16px;">
+          <div style="font-size:32px;font-weight:800;color:var(--text);">$24,850</div>
+          <div style="font-size:13px;color:#10b981;font-weight:600;">+$6,320 this month</div>
+        </div>
+        <div class="portfolio-row">
+          <span class="asset-name">₿ Bitcoin (BTC)</span>
+          <span class="asset-val">$12,400</span>
+          <span class="asset-change up">+28.4%</span>
+        </div>
+        <div class="portfolio-row">
+          <span class="asset-name">⬡ Ethereum (ETH)</span>
+          <span class="asset-val">$6,200</span>
+          <span class="asset-change up">+18.2%</span>
+        </div>
+        <div class="portfolio-row">
+          <span class="asset-name">🥇 Gold (XAU)</span>
+          <span class="asset-val">$4,100</span>
+          <span class="asset-change up">+12.6%</span>
+        </div>
+        <div class="portfolio-row">
+          <span class="asset-name">💵 USD/UGX</span>
+          <span class="asset-val">$2,150</span>
+          <span class="asset-change down">-2.1%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signals Tab -->
+    <div id="tab-signals" style="display:none;padding:0 16px;">
+      <div style="background:var(--surface);border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid var(--border);box-shadow:0 2px 8px var(--shadow);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span style="font-size:15px;font-weight:700;color:var(--text);">XAU/USD</span>
+          <span style="background:rgba(16,185,129,0.15);color:#10b981;padding:4px 12px;border-radius:10px;font-size:12px;font-weight:700;">✓ HIT TP</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:13px;text-align:center;">
+          <div><div style="color:var(--text-muted);font-size:11px;">Entry</div><div style="font-weight:700;">2,310.00</div></div>
+          <div><div style="color:var(--text-muted);font-size:11px;">TP</div><div style="font-weight:700;color:#10b981;">2,340.00</div></div>
+          <div><div style="color:var(--text-muted);font-size:11px;">SL</div><div style="font-weight:700;color:#ef4444;">2,290.00</div></div>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:10px;">+300 pips · 2 days ago</div>
+      </div>
+      <div style="background:var(--surface);border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid var(--border);box-shadow:0 2px 8px var(--shadow);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span style="font-size:15px;font-weight:700;color:var(--text);">EUR/USD</span>
+          <span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:4px 12px;border-radius:10px;font-size:12px;font-weight:700;">✗ SL HIT</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:13px;text-align:center;">
+          <div><div style="color:var(--text-muted);font-size:11px;">Entry</div><div style="font-weight:700;">1.0850</div></div>
+          <div><div style="color:var(--text-muted);font-size:11px;">TP</div><div style="font-weight:700;color:#10b981;">1.0920</div></div>
+          <div><div style="color:var(--text-muted);font-size:11px;">SL</div><div style="font-weight:700;color:#ef4444;">1.0810</div></div>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:10px;">-40 pips · 5 days ago</div>
+      </div>
+    </div>
+
+    <!-- Media Tab -->
+    <div id="tab-media" style="display:none;padding:0 16px;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+        <img src="https://picsum.photos/seed/a1/200/200" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;" />
+        <img src="https://picsum.photos/seed/a2/200/200" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;" />
+        <img src="https://picsum.photos/seed/a3/200/200" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;" />
+        <img src="https://picsum.photos/seed/a4/200/200" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;" />
+        <img src="https://picsum.photos/seed/a5/200/200" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;" />
+        <img src="https://picsum.photos/seed/a6/200/200" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;" />
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item active"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <script>
+    function showTab(tab, el) {
+      document.querySelectorAll('[id^="tab-"]').forEach(t => t.style.display = 'none');
+      document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + tab).style.display = 'block';
+      el.classList.add('active');
+    }
+  </script>
+</body>
+</html>
