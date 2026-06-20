@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feed — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .feed-wrap { max-width: 480px; margin: 0 auto; padding: 12px 12px 100px; }
+
+    /* Stories */
+    .stories-bar { display: flex; gap: 12px; overflow-x: auto; padding: 4px 0 12px; scrollbar-width: none; }
+    .stories-bar::-webkit-scrollbar { display: none; }
+    .story-item { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; cursor: pointer; }
+    .story-ring {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: linear-gradient(135deg, #f59e0b, #7c3aed);
+      padding: 2px; display: flex; align-items: center; justify-content: center;
+    }
+    .story-ring.seen { background: var(--border); }
+    .story-avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid var(--surface); }
+    .story-add { width: 52px; height: 52px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--accent); }
+    .story-name { font-size: 11px; color: var(--text-muted); max-width: 58px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Post composer */
+    .compose-card {
+      background: var(--surface); border-radius: 16px; padding: 14px;
+      box-shadow: 0 2px 10px var(--shadow); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .compose-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0; }
+    .compose-input {
+      flex: 1; background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 25px; padding: 10px 16px; font-size: 14px;
+      color: var(--text); outline: none; cursor: pointer;
+    }
+    .compose-actions { display: flex; gap: 6px; }
+    .compose-btn { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; padding: 4px; }
+
+    /* Filter tabs */
+    .feed-tabs { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+    .feed-tabs::-webkit-scrollbar { display: none; }
+    .feed-tab {
+      padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+      border: 1.5px solid var(--border); background: var(--surface);
+      color: var(--text-muted); cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    }
+    .feed-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* Post card */
+    .post-card {
+      background: var(--surface); border-radius: 16px;
+      box-shadow: 0 2px 10px var(--shadow); margin-bottom: 14px;
+      overflow: hidden; border: 1px solid var(--border);
+    }
+    .post-header { display: flex; align-items: center; gap: 10px; padding: 14px 14px 10px; }
+    .post-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+    .post-meta { flex: 1; }
+    .post-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 5px; }
+    .post-badge { font-size: 10px; background: linear-gradient(135deg, #f59e0b, #ef4444); color: #fff; padding: 2px 7px; border-radius: 10px; font-weight: 700; }
+    .post-time { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .post-menu { color: var(--text-muted); font-size: 18px; cursor: pointer; }
+
+    .post-text { padding: 0 14px 12px; font-size: 14px; line-height: 1.7; color: var(--text); }
+    .post-text .hashtag { color: var(--accent); font-weight: 600; }
+    .post-image { width: 100%; max-height: 320px; object-fit: cover; display: block; }
+    .post-chart { padding: 12px 14px; }
+
+    .post-stats { display: flex; gap: 4px; padding: 8px 14px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .post-stat { font-size: 12px; color: var(--text-muted); }
+
+    .post-actions { display: flex; padding: 4px 8px; }
+    .post-action {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 9px 4px; border: none; background: none; color: var(--text-muted);
+      font-size: 13px; cursor: pointer; border-radius: 10px; font-weight: 600;
+      transition: background 0.15s, color 0.15s;
+    }
+    .post-action:hover { background: var(--bg); color: var(--accent); }
+    .post-action.liked { color: #ef4444; }
+    .post-action i { font-size: 15px; }
+
+    /* Chart bar */
+    .mini-chart { display: flex; align-items: flex-end; gap: 4px; height: 60px; }
+    .chart-bar { flex: 1; border-radius: 4px 4px 0 0; background: var(--accent); opacity: 0.7; transition: opacity 0.2s; }
+    .chart-bar:hover { opacity: 1; }
+    .chart-labels { display: flex; gap: 4px; margin-top: 4px; }
+    .chart-label { flex: 1; text-align: center; font-size: 9px; color: var(--text-muted); }
+
+    /* Signal post */
+    .signal-box { margin: 0 14px 12px; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(45,45,142,0.08)); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px; padding: 12px; }
+    .signal-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .signal-icon { width: 32px; height: 32px; background: #10b981; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; }
+    .signal-pair { font-size: 16px; font-weight: 800; color: var(--text); }
+    .signal-dir { font-size: 12px; font-weight: 700; color: #10b981; background: rgba(16,185,129,0.15); padding: 3px 10px; border-radius: 10px; }
+    .signal-dir.sell { color: #ef4444; background: rgba(239,68,68,0.15); }
+    .signal-rows { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .signal-row { text-align: center; }
+    .signal-lbl { font-size: 10px; color: var(--text-muted); font-weight: 600; }
+    .signal-val { font-size: 13px; font-weight: 700; color: var(--text); margin-top: 2px; }
+
+    /* Poll */
+    .poll-box { margin: 0 14px 12px; }
+    .poll-option { background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; cursor: pointer; position: relative; overflow: hidden; }
+    .poll-option.voted { border-color: var(--accent); }
+    .poll-bar { position: absolute; left: 0; top: 0; height: 100%; background: rgba(124,58,237,0.1); border-radius: 10px; transition: width 0.6s ease; }
+    .poll-row { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+    .poll-text { font-size: 13px; font-weight: 600; color: var(--text); }
+    .poll-pct { font-size: 13px; font-weight: 700; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <button class="menu-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+    <img src="https://img.icons8.com/color/48/crown.png" class="nav-logo" />
+    <div style="display:flex;gap:8px;">
+      <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+      <button class="icon-btn"><i class="fa fa-bell"></i></button>
+    </div>
+  </header>
+
+  <div class="feed-wrap">
+
+    <!-- Stories -->
+    <div class="stories-bar animate-fade">
+      <div class="story-item">
+        <div class="story-ring" style="background:var(--border);">
+          <div class="story-add">+</div>
+        </div>
+        <span class="story-name">Your Story</span>
+      </div>
+      <div class="story-item">
+        <div class="story-ring">
+          <img src="https://i.pravatar.cc/52?img=11" class="story-avatar" />
+        </div>
+        <span class="story-name">Trader K</span>
+      </div>
+      <div class="story-item">
+        <div class="story-ring">
+          <img src="https://i.pravatar.cc/52?img=22" class="story-avatar" />
+        </div>
+        <span class="story-name">Sarah M</span>
+      </div>
+      <div class="story-item">
+        <div class="story-ring seen">
+          <img src="https://i.pravatar.cc/52?img=33" class="story-avatar" />
+        </div>
+        <span class="story-name">John B</span>
+      </div>
+      <div class="story-item">
+        <div class="story-ring">
+          <img src="https://i.pravatar.cc/52?img=44" class="story-avatar" />
+        </div>
+        <span class="story-name">Ama D</span>
+      </div>
+      <div class="story-item">
+        <div class="story-ring seen">
+          <img src="https://i.pravatar.cc/52?img=55" class="story-avatar" />
+        </div>
+        <span class="story-name">Felix O</span>
+      </div>
+    </div>
+
+    <!-- Compose -->
+    <div class="compose-card animate-fade">
+      <img src="https://base44.app/api/apps/69fc978092ebf62a775511bf/files/mp/public/69fc978092ebf62a775511bf/a882eada8_founder.jpg" class="compose-avatar" />
+      <input class="compose-input" placeholder="Share a trade, idea, or insight..." readonly onclick="openCompose()" />
+      <div class="compose-actions">
+        <button class="compose-btn" title="Photo"><i class="fa fa-image"></i></button>
+        <button class="compose-btn" title="Signal"><i class="fa fa-chart-line"></i></button>
+      </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="feed-tabs">
+      <div class="feed-tab active" onclick="setTab(this)">🔥 For You</div>
+      <div class="feed-tab" onclick="setTab(this)">📈 Signals</div>
+      <div class="feed-tab" onclick="setTab(this)">👥 Following</div>
+      <div class="feed-tab" onclick="setTab(this)">💡 Ideas</div>
+      <div class="feed-tab" onclick="setTab(this)">🌍 Trending</div>
+    </div>
+
+    <!-- Post 1: Trading Signal -->
+    <div class="post-card animate-fade">
+      <div class="post-header">
+        <img src="https://base44.app/api/apps/69fc978092ebf62a775511bf/files/mp/public/69fc978092ebf62a775511bf/a882eada8_founder.jpg" class="post-avatar" />
+        <div class="post-meta">
+          <div class="post-name">Trader Derick <span class="post-badge">👑 FOUNDER</span></div>
+          <div class="post-time">2 min ago · 🌍 Public</div>
+        </div>
+        <button class="post-menu"><i class="fa fa-ellipsis-h"></i></button>
+      </div>
+      <div class="post-text">
+        🚨 LIVE SIGNAL — XAUUSD looking bullish on H4. Strong support at 2,310. Target 2,340+. Manage your risk. <span class="hashtag">#Gold #Forex #Trading</span>
+      </div>
+      <div class="signal-box">
+        <div class="signal-header">
+          <div class="signal-icon"><i class="fa fa-chart-line"></i></div>
+          <span class="signal-pair">XAU/USD</span>
+          <span class="signal-dir">BUY</span>
+        </div>
+        <div class="signal-rows">
+          <div class="signal-row">
+            <div class="signal-lbl">Entry</div>
+            <div class="signal-val">2,315.00</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-lbl">TP</div>
+            <div class="signal-val" style="color:#10b981">2,340.00</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-lbl">SL</div>
+            <div class="signal-val" style="color:#ef4444">2,298.00</div>
+          </div>
+        </div>
+      </div>
+      <div class="post-stats">
+        <span class="post-stat">147 likes ·</span>
+        <span class="post-stat" style="margin-left:4px">38 comments ·</span>
+        <span class="post-stat" style="margin-left:4px">22 reposts</span>
+      </div>
+      <div class="post-actions">
+        <button class="post-action" onclick="likePost(this)"><i class="fa fa-heart"></i> Like</button>
+        <button class="post-action"><i class="fa fa-comment"></i> Comment</button>
+        <button class="post-action"><i class="fa fa-retweet"></i> Repost</button>
+        <button class="post-action"><i class="fa fa-share"></i> Share</button>
+      </div>
+    </div>
+
+    <!-- Post 2: Market Analysis with Chart -->
+    <div class="post-card animate-fade" style="animation-delay:0.1s">
+      <div class="post-header">
+        <img src="https://i.pravatar.cc/42?img=22" class="post-avatar" />
+        <div class="post-meta">
+          <div class="post-name">Sarah Mwangi <span class="post-badge" style="background:linear-gradient(135deg,#2d2d8e,#7c3aed)">⚡ ELITE</span></div>
+          <div class="post-time">15 min ago · 🌍 Public</div>
+        </div>
+        <button class="post-menu"><i class="fa fa-ellipsis-h"></i></button>
+      </div>
+      <div class="post-text">
+        Bitcoin weekly close looking strong 💪 Breaking above the 200 EMA is a big sign. My portfolio is up 34% this month. Who else is positioned? <span class="hashtag">#Bitcoin #Crypto #Wealth</span>
+      </div>
+      <div class="post-chart">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:13px;font-weight:700;color:var(--text)">BTC Portfolio Growth</span>
+          <span style="font-size:12px;color:#10b981;font-weight:700">+34% ↑</span>
+        </div>
+        <div class="mini-chart">
+          <div class="chart-bar" style="height:30%;background:#ef4444"></div>
+          <div class="chart-bar" style="height:45%"></div>
+          <div class="chart-bar" style="height:35%;background:#ef4444"></div>
+          <div class="chart-bar" style="height:60%"></div>
+          <div class="chart-bar" style="height:55%"></div>
+          <div class="chart-bar" style="height:75%"></div>
+          <div class="chart-bar" style="height:80%"></div>
+          <div class="chart-bar" style="height:100%;background:#10b981"></div>
+        </div>
+        <div class="chart-labels">
+          <span class="chart-label">Oct</span>
+          <span class="chart-label">Nov</span>
+          <span class="chart-label">Dec</span>
+          <span class="chart-label">Jan</span>
+          <span class="chart-label">Feb</span>
+          <span class="chart-label">Mar</span>
+          <span class="chart-label">Apr</span>
+          <span class="chart-label">May</span>
+        </div>
+      </div>
+      <div class="post-stats">
+        <span class="post-stat">89 likes ·</span>
+        <span class="post-stat" style="margin-left:4px">21 comments ·</span>
+        <span class="post-stat" style="margin-left:4px">14 reposts</span>
+      </div>
+      <div class="post-actions">
+        <button class="post-action liked" onclick="likePost(this)"><i class="fa fa-heart"></i> Like</button>
+        <button class="post-action"><i class="fa fa-comment"></i> Comment</button>
+        <button class="post-action"><i class="fa fa-retweet"></i> Repost</button>
+        <button class="post-action"><i class="fa fa-share"></i> Share</button>
+      </div>
+    </div>
+
+    <!-- Post 3: Poll -->
+    <div class="post-card animate-fade" style="animation-delay:0.2s">
+      <div class="post-header">
+        <img src="https://i.pravatar.cc/42?img=11" class="post-avatar" />
+        <div class="post-meta">
+          <div class="post-name">Kofi Acheampong <span class="post-badge" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🏆 BUSINESS</span></div>
+          <div class="post-time">1 hr ago · 🌍 Public</div>
+        </div>
+        <button class="post-menu"><i class="fa fa-ellipsis-h"></i></button>
+      </div>
+      <div class="post-text">
+        What's your #1 income source in 2026? Let's see where the community is at 👇 <span class="hashtag">#Wealth #Entrepreneur #Africa</span>
+      </div>
+      <div class="poll-box">
+        <div class="poll-option voted" onclick="votePoll(this, 42)">
+          <div class="poll-bar" style="width:42%"></div>
+          <div class="poll-row"><span class="poll-text">📈 Trading / Forex</span><span class="poll-pct">42%</span></div>
+        </div>
+        <div class="poll-option" onclick="votePoll(this, 28)">
+          <div class="poll-bar" style="width:28%"></div>
+          <div class="poll-row"><span class="poll-text">💼 Business / E-commerce</span><span class="poll-pct">28%</span></div>
+        </div>
+        <div class="poll-option" onclick="votePoll(this, 18)">
+          <div class="poll-bar" style="width:18%"></div>
+          <div class="poll-row"><span class="poll-text">🎨 Content Creation</span><span class="poll-pct">18%</span></div>
+        </div>
+        <div class="poll-option" onclick="votePoll(this, 12)">
+          <div class="poll-bar" style="width:12%"></div>
+          <div class="poll-row"><span class="poll-text">💻 Tech / Freelancing</span><span class="poll-pct">12%</span></div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:8px">312 votes · 18 hrs left</p>
+      </div>
+      <div class="post-actions">
+        <button class="post-action" onclick="likePost(this)"><i class="fa fa-heart"></i> Like</button>
+        <button class="post-action"><i class="fa fa-comment"></i> Comment</button>
+        <button class="post-action"><i class="fa fa-retweet"></i> Repost</button>
+        <button class="post-action"><i class="fa fa-share"></i> Share</button>
+      </div>
+    </div>
+
+    <!-- Post 4: Text post -->
+    <div class="post-card animate-fade" style="animation-delay:0.3s">
+      <div class="post-header">
+        <img src="https://i.pravatar.cc/42?img=44" class="post-avatar" />
+        <div class="post-meta">
+          <div class="post-name">Ama Darko <span class="post-badge" style="background:linear-gradient(135deg,#2d2d8e,#7c3aed)">⚡ ELITE</span></div>
+          <div class="post-time">3 hrs ago · 🌍 Public</div>
+        </div>
+        <button class="post-menu"><i class="fa fa-ellipsis-h"></i></button>
+      </div>
+      <div class="post-text">
+        Reminder: your network is your net worth. I closed a $15K deal today from a connection I made right here on Elite Members 3 months ago. Keep showing up. Keep adding value. 🔥<br><br>
+        Tag someone who needs to hear this 👇 <span class="hashtag">#EliteMembers #Network #Success</span>
+      </div>
+      <div class="post-stats">
+        <span class="post-stat">234 likes ·</span>
+        <span class="post-stat" style="margin-left:4px">67 comments ·</span>
+        <span class="post-stat" style="margin-left:4px">88 reposts</span>
+      </div>
+      <div class="post-actions">
+        <button class="post-action" onclick="likePost(this)"><i class="fa fa-heart"></i> Like</button>
+        <button class="post-action"><i class="fa fa-comment"></i> Comment</button>
+        <button class="post-action"><i class="fa fa-retweet"></i> Repost</button>
+        <button class="post-action"><i class="fa fa-share"></i> Share</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Compose Modal -->
+  <div id="composeModal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);" onclick="closeCompose(event)">
+    <div style="position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-radius:24px 24px 0 0;padding:20px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <img src="https://base44.app/api/apps/69fc978092ebf62a775511bf/files/mp/public/69fc978092ebf62a775511bf/a882eada8_founder.jpg" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);" />
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--text);">Trader Derick</div>
+          <div style="font-size:12px;color:var(--accent);">👑 Founder</div>
+        </div>
+        <button onclick="document.getElementById('composeModal').style.display='none'" style="margin-left:auto;background:none;border:none;font-size:22px;color:var(--text-muted);cursor:pointer;">×</button>
+      </div>
+      <textarea id="composeText" placeholder="What's on your mind? Share a trade, insight, or idea..." style="width:100%;border:none;background:transparent;color:var(--text);font-size:15px;resize:none;outline:none;min-height:100px;font-family:inherit;"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border);">
+        <div style="display:flex;gap:14px;">
+          <button style="background:none;border:none;color:var(--accent);font-size:20px;cursor:pointer;"><i class="fa fa-image"></i></button>
+          <button style="background:none;border:none;color:var(--accent);font-size:20px;cursor:pointer;"><i class="fa fa-chart-line"></i></button>
+          <button style="background:none;border:none;color:var(--accent);font-size:20px;cursor:pointer;"><i class="fa fa-poll"></i></button>
+          <button style="background:none;border:none;color:var(--accent);font-size:20px;cursor:pointer;"><i class="fa fa-video"></i></button>
+        </div>
+        <button onclick="submitPost()" style="background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;padding:10px 24px;border-radius:20px;font-weight:700;cursor:pointer;">Post</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item active"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn" onclick="openCompose();return false;"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <script>
+    function setTab(el) {
+      document.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+    function likePost(btn) {
+      btn.classList.toggle('liked');
+      btn.style.color = btn.classList.contains('liked') ? '#ef4444' : '';
+    }
+    function votePoll(el, pct) {
+      document.querySelectorAll('.poll-option').forEach(o => o.classList.remove('voted'));
+      el.classList.add('voted');
+    }
+    function openCompose() {
+      document.getElementById('composeModal').style.display = 'block';
+      setTimeout(() => document.getElementById('composeText').focus(), 100);
+    }
+    function closeCompose(e) {
+      if (e.target.id === 'composeModal') document.getElementById('composeModal').style.display = 'none';
+    }
+    function submitPost() {
+      const text = document.getElementById('composeText').value.trim();
+      if (!text) return;
+      alert('Post shared! (Connect Supabase to save posts)');
+      document.getElementById('composeModal').style.display = 'none';
+      document.getElementById('composeText').value = '';
+    }
+  </script>
+</body>
+</html>
