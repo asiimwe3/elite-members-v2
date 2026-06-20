@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collaborations — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .collab-wrap { max-width: 480px; margin: 0 auto; padding: 12px 12px 100px; }
+
+    .collab-hero { background: linear-gradient(135deg, #1a1a3e, #2d2d8e, #7c3aed); border-radius: 20px; padding: 20px; margin-bottom: 16px; color: #fff; position: relative; overflow: hidden; }
+    .collab-hero-pattern { position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 10px); }
+    .collab-hero-content { position: relative; }
+
+    .filter-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+    .filter-tabs::-webkit-scrollbar { display: none; }
+    .filter-tab { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1.5px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+    .filter-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .section-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 12px; }
+
+    .collab-card { background: var(--surface); border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); box-shadow: 0 2px 8px var(--shadow); }
+    .collab-header { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+    .collab-avatar { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); flex-shrink: 0; }
+    .collab-meta { flex: 1; }
+    .collab-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 5px; }
+    .collab-badge { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 700; background: rgba(124,58,237,0.15); color: var(--accent); }
+    .collab-role { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .collab-posted { font-size: 11px; color: var(--text-muted); }
+
+    .collab-type { display: inline-block; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
+    .collab-type.signal { background: rgba(16,185,129,0.12); color: #10b981; }
+    .collab-type.content { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .collab-type.business { background: rgba(74,111,255,0.12); color: #4a6fff; }
+    .collab-type.invest { background: rgba(239,68,68,0.12); color: #ef4444; }
+
+    .collab-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .collab-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+    .collab-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .collab-tag { font-size: 11px; background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); padding: 3px 10px; border-radius: 20px; }
+    .collab-footer { display: flex; justify-content: space-between; align-items: center; }
+    .collab-budget { font-size: 13px; color: var(--text-muted); }
+    .collab-budget strong { color: var(--text); }
+    .apply-btn { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border: none; padding: 9px 20px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
+    .apply-btn:hover { transform: scale(1.04); }
+    .apply-btn.applied { background: var(--bg); color: #10b981; border: 1.5px solid #10b981; }
+
+    .post-collab-btn { width: 100%; padding: 14px; border-radius: 25px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border: none; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <button class="menu-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+    <span style="font-size:16px;font-weight:800;color:var(--text);">Collaborations 🤝</span>
+    <div style="display:flex;gap:8px;">
+      <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+      <button class="icon-btn"><i class="fa fa-filter"></i></button>
+    </div>
+  </header>
+
+  <div class="collab-wrap">
+
+    <!-- Hero -->
+    <div class="collab-hero animate-fade">
+      <div class="collab-hero-pattern"></div>
+      <div class="collab-hero-content">
+        <div style="font-size:13px;font-weight:700;color:#f59e0b;margin-bottom:8px;">🤝 COLLAB HUB</div>
+        <h2 style="font-size:20px;font-weight:800;margin-bottom:6px;">Find Your Next Partner</h2>
+        <p style="font-size:13px;opacity:0.8;margin-bottom:14px;">Connect with creators, traders, and entrepreneurs across Africa for powerful collaborations that grow your income and reach.</p>
+        <div style="display:flex;gap:16px;font-size:12px;opacity:0.8;">
+          <span>📋 142 active listings</span>
+          <span>🌍 18 countries</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Post button -->
+    <button class="post-collab-btn animate-fade" onclick="showPostModal()">+ Post a Collaboration Opportunity</button>
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs animate-fade">
+      <button class="filter-tab active" onclick="setTab(this)">🔥 All</button>
+      <button class="filter-tab" onclick="setTab(this)">📈 Trading</button>
+      <button class="filter-tab" onclick="setTab(this)">🎨 Content</button>
+      <button class="filter-tab" onclick="setTab(this)">💼 Business</button>
+      <button class="filter-tab" onclick="setTab(this)">💡 Startups</button>
+      <button class="filter-tab" onclick="setTab(this)">💰 Investment</button>
+    </div>
+
+    <div class="section-title animate-fade">Latest Opportunities</div>
+
+    <!-- Collab 1 -->
+    <div class="collab-card animate-fade">
+      <div class="collab-header">
+        <img src="https://base44.app/api/apps/69fc978092ebf62a775511bf/files/mp/public/69fc978092ebf62a775511bf/a882eada8_founder.jpg" class="collab-avatar" />
+        <div class="collab-meta">
+          <div class="collab-name">Trader Derick <span class="collab-badge">👑 Founder</span></div>
+          <div class="collab-role">Forex Trader & Entrepreneur · Uganda 🇺🇬</div>
+        </div>
+        <div class="collab-posted">2h ago</div>
+      </div>
+      <div class="collab-type signal">📡 Signal Channel Partner</div>
+      <div class="collab-title">Looking for Co-Analyst — Gold & Crypto Signals</div>
+      <div class="collab-desc">Seeking an experienced analyst to co-run a premium signals channel. Must have 2+ years track record, 65%+ win rate. Revenue share model.</div>
+      <div class="collab-tags">
+        <span class="collab-tag">XAU/USD</span>
+        <span class="collab-tag">BTC</span>
+        <span class="collab-tag">ETH</span>
+        <span class="collab-tag">Revenue Share</span>
+      </div>
+      <div class="collab-footer">
+        <span class="collab-budget">💰 <strong>Rev Share</strong> · 40/60 split</span>
+        <button class="apply-btn" onclick="applyCollab(this)">Apply →</button>
+      </div>
+    </div>
+
+    <!-- Collab 2 -->
+    <div class="collab-card animate-fade">
+      <div class="collab-header">
+        <img src="https://i.pravatar.cc/46?img=44" class="collab-avatar" />
+        <div class="collab-meta">
+          <div class="collab-name">Ama Darko <span class="collab-badge">⚡ Elite</span></div>
+          <div class="collab-role">Content Creator · Ghana 🇬🇭</div>
+        </div>
+        <div class="collab-posted">5h ago</div>
+      </div>
+      <div class="collab-type content">🎨 Content Collab</div>
+      <div class="collab-title">YouTube Series — "African Success Stories"</div>
+      <div class="collab-desc">Building a 20-episode YouTube series interviewing successful African entrepreneurs and traders. Looking for 5 featured guests with compelling stories. No experience needed, just great stories.</div>
+      <div class="collab-tags">
+        <span class="collab-tag">YouTube</span>
+        <span class="collab-tag">Interview</span>
+        <span class="collab-tag">Africa</span>
+        <span class="collab-tag">Free</span>
+      </div>
+      <div class="collab-footer">
+        <span class="collab-budget">💰 <strong>Exposure</strong> · 50K+ audience</span>
+        <button class="apply-btn" onclick="applyCollab(this)">Apply →</button>
+      </div>
+    </div>
+
+    <!-- Collab 3 -->
+    <div class="collab-card animate-fade">
+      <div class="collab-header">
+        <img src="https://i.pravatar.cc/46?img=11" class="collab-avatar" />
+        <div class="collab-meta">
+          <div class="collab-name">Kofi Acheampong <span class="collab-badge">🏆 Business</span></div>
+          <div class="collab-role">Entrepreneur · Ghana 🇬🇭</div>
+        </div>
+        <div class="collab-posted">1d ago</div>
+      </div>
+      <div class="collab-type business">💼 Business Partnership</div>
+      <div class="collab-title">E-Commerce Brand Partnership — East Africa Distribution</div>
+      <div class="collab-desc">Established e-commerce brand seeking a distribution partner in Uganda, Kenya, or Tanzania. We provide the products & marketing, you provide local logistics. Profit share available.</div>
+      <div class="collab-tags">
+        <span class="collab-tag">E-Commerce</span>
+        <span class="collab-tag">Distribution</span>
+        <span class="collab-tag">East Africa</span>
+        <span class="collab-tag">Paid</span>
+      </div>
+      <div class="collab-footer">
+        <span class="collab-budget">💰 <strong>$500–$2K/mo</strong> + % share</span>
+        <button class="apply-btn" onclick="applyCollab(this)">Apply →</button>
+      </div>
+    </div>
+
+    <!-- Collab 4 -->
+    <div class="collab-card animate-fade">
+      <div class="collab-header">
+        <img src="https://i.pravatar.cc/46?img=55" class="collab-avatar" />
+        <div class="collab-meta">
+          <div class="collab-name">Felix Osei</div>
+          <div class="collab-role">Trading Educator · Nigeria 🇳🇬</div>
+        </div>
+        <div class="collab-posted">2d ago</div>
+      </div>
+      <div class="collab-type invest">💰 Investment Opportunity</div>
+      <div class="collab-title">Seeking Co-Founder for Trading Academy — $10K Seed</div>
+      <div class="collab-desc">Building an accredited online trading academy for West Africa. Looking for a tech co-founder or investor. Already have 200+ students on the waitlist. Seeking $10K seed to build the platform.</div>
+      <div class="collab-tags">
+        <span class="collab-tag">Startup</span>
+        <span class="collab-tag">Edtech</span>
+        <span class="collab-tag">West Africa</span>
+        <span class="collab-tag">Equity</span>
+      </div>
+      <div class="collab-footer">
+        <span class="collab-budget">💰 <strong>Equity</strong> · 20–30% stake</span>
+        <button class="apply-btn" onclick="applyCollab(this)">Apply →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Post Modal -->
+  <div id="postModal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);" onclick="closeModal(event)">
+    <div style="position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-radius:24px 24px 0 0;padding:20px;max-height:80vh;overflow-y:auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <span style="font-size:16px;font-weight:800;color:var(--text);">Post Opportunity</span>
+        <button onclick="document.getElementById('postModal').style.display='none'" style="background:none;border:none;font-size:24px;color:var(--text-muted);cursor:pointer;">×</button>
+      </div>
+      <input id="collabTitle" placeholder="Opportunity title..." style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-size:14px;color:var(--text);outline:none;margin-bottom:10px;" />
+      <textarea id="collabDesc" placeholder="Describe what you're looking for, what you offer, and how to apply..." style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-size:14px;color:var(--text);outline:none;resize:none;min-height:80px;margin-bottom:10px;font-family:inherit;"></textarea>
+      <select style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-size:14px;color:var(--text);outline:none;margin-bottom:14px;">
+        <option>📡 Signal Channel Partner</option>
+        <option>🎨 Content Collaboration</option>
+        <option>💼 Business Partnership</option>
+        <option>💡 Startup / Co-Founder</option>
+        <option>💰 Investment Opportunity</option>
+      </select>
+      <button onclick="submitCollab()" style="width:100%;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;border:none;padding:14px;border-radius:25px;font-weight:700;font-size:14px;cursor:pointer;">Post Opportunity →</button>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <script>
+    function setTab(el) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+    function applyCollab(btn) {
+      btn.textContent = '✓ Applied!';
+      btn.classList.add('applied');
+      btn.disabled = true;
+    }
+    function showPostModal() { document.getElementById('postModal').style.display = 'block'; }
+    function closeModal(e) { if (e.target.id === 'postModal') document.getElementById('postModal').style.display = 'none'; }
+    function submitCollab() {
+      const t = document.getElementById('collabTitle').value.trim();
+      if (!t) { alert('Please add a title.'); return; }
+      document.getElementById('postModal').style.display = 'none';
+      alert('Your collaboration opportunity has been posted! (Connect Supabase to persist listings)');
+    }
+  </script>
+</body>
+</html>
