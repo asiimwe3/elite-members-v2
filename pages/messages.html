@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages — Elite Members</title>
+  <meta name="theme-color" content="#2d2d8e" />
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .msg-wrap { max-width: 480px; margin: 0 auto; padding-bottom: 100px; }
+    .msg-search { padding: 12px 16px; }
+    .search-input { width: 100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: 25px; padding: 10px 18px 10px 40px; font-size: 14px; color: var(--text); outline: none; position: relative; }
+    .search-wrap { position: relative; }
+    .search-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
+
+    .section-title { padding: 6px 16px 10px; font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+
+    /* Online friends */
+    .online-bar { display: flex; gap: 14px; overflow-x: auto; padding: 0 16px 14px; scrollbar-width: none; }
+    .online-bar::-webkit-scrollbar { display: none; }
+    .online-item { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; cursor: pointer; }
+    .online-avatar-wrap { position: relative; }
+    .online-avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+    .online-dot { position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: #10b981; border-radius: 50%; border: 2px solid var(--surface); }
+    .online-name { font-size: 11px; color: var(--text-muted); max-width: 52px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Chat list */
+    .chat-item { display: flex; align-items: center; gap: 12px; padding: 13px 16px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border); }
+    .chat-item:hover { background: var(--bg); }
+    .chat-avatar-wrap { position: relative; flex-shrink: 0; }
+    .chat-avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
+    .chat-online { position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: #10b981; border-radius: 50%; border: 2px solid var(--surface); }
+    .chat-info { flex: 1; min-width: 0; }
+    .chat-name-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+    .chat-name { font-size: 15px; font-weight: 700; color: var(--text); }
+    .chat-time { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+    .chat-preview-row { display: flex; justify-content: space-between; align-items: center; }
+    .chat-preview { font-size: 13px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+    .chat-preview.unread { color: var(--text); font-weight: 600; }
+    .chat-badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 5px; }
+
+    /* Chat window */
+    #chatWindow { display: none; position: fixed; inset: 0; z-index: 150; background: var(--bg); flex-direction: column; }
+    #chatWindow.open { display: flex; }
+    .chat-win-header { background: var(--surface); padding: 12px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px var(--shadow); }
+    .chat-win-back { background: none; border: none; color: var(--text); font-size: 20px; cursor: pointer; padding: 4px; }
+    .chat-win-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); }
+    .chat-win-name { flex: 1; }
+    .chat-win-name h4 { font-size: 15px; font-weight: 700; color: var(--text); }
+    .chat-win-name p { font-size: 12px; color: #10b981; }
+    .chat-win-actions { display: flex; gap: 12px; }
+    .chat-win-actions button { background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer; }
+
+    .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .msg-bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
+    .msg-bubble.them { background: var(--surface); color: var(--text); border-bottom-left-radius: 4px; align-self: flex-start; box-shadow: 0 1px 4px var(--shadow); }
+    .msg-bubble.me { background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .msg-time { font-size: 10px; opacity: 0.6; margin-top: 4px; }
+
+    .chat-input-bar { background: var(--surface); padding: 12px 16px; display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--border); }
+    .chat-input { flex: 1; background: var(--bg); border: 1.5px solid var(--border); border-radius: 25px; padding: 10px 16px; font-size: 14px; color: var(--text); outline: none; }
+    .send-btn { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); border: none; color: #fff; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+<body>
+  <script src="../js/app.js"></script>
+
+  <header class="topnav">
+    <button class="menu-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+    <span style="font-size:16px;font-weight:800;color:var(--text);">Messages</span>
+    <div style="display:flex;gap:8px;">
+      <button class="icon-btn" onclick="toggleDark()"><i class="fa fa-moon"></i></button>
+      <button class="icon-btn"><i class="fa fa-pen-to-square"></i></button>
+    </div>
+  </header>
+
+  <div class="msg-wrap">
+
+    <!-- Search -->
+    <div class="msg-search">
+      <div class="search-wrap">
+        <i class="fa fa-search"></i>
+        <input class="search-input" placeholder="Search messages..." />
+      </div>
+    </div>
+
+    <!-- Online Now -->
+    <div class="section-title">Online Now</div>
+    <div class="online-bar animate-fade">
+      <div class="online-item">
+        <div class="online-avatar-wrap">
+          <img src="https://i.pravatar.cc/52?img=11" class="online-avatar" />
+          <div class="online-dot"></div>
+        </div>
+        <span class="online-name">Trader K</span>
+      </div>
+      <div class="online-item">
+        <div class="online-avatar-wrap">
+          <img src="https://i.pravatar.cc/52?img=22" class="online-avatar" />
+          <div class="online-dot"></div>
+        </div>
+        <span class="online-name">Sarah M</span>
+      </div>
+      <div class="online-item">
+        <div class="online-avatar-wrap">
+          <img src="https://i.pravatar.cc/52?img=44" class="online-avatar" />
+          <div class="online-dot"></div>
+        </div>
+        <span class="online-name">Ama D</span>
+      </div>
+      <div class="online-item">
+        <div class="online-avatar-wrap">
+          <img src="https://i.pravatar.cc/52?img=55" class="online-avatar" />
+          <div class="online-dot"></div>
+        </div>
+        <span class="online-name">Felix O</span>
+      </div>
+    </div>
+
+    <!-- Chats -->
+    <div class="section-title">Recent Chats</div>
+
+    <div class="chat-item animate-fade" onclick="openChat('Sarah Mwangi', 'https://i.pravatar.cc/52?img=22', 'Online')">
+      <div class="chat-avatar-wrap">
+        <img src="https://i.pravatar.cc/52?img=22" class="chat-avatar" />
+        <div class="chat-online"></div>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name-row">
+          <span class="chat-name">Sarah Mwangi ⚡</span>
+          <span class="chat-time">2m</span>
+        </div>
+        <div class="chat-preview-row">
+          <span class="chat-preview unread">Did you see the gold signal? 🔥</span>
+          <span class="chat-badge">3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-item animate-fade" onclick="openChat('Kofi Acheampong', 'https://i.pravatar.cc/52?img=11', 'Online')">
+      <div class="chat-avatar-wrap">
+        <img src="https://i.pravatar.cc/52?img=11" class="chat-avatar" />
+        <div class="chat-online"></div>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name-row">
+          <span class="chat-name">Kofi Acheampong 🏆</span>
+          <span class="chat-time">18m</span>
+        </div>
+        <div class="chat-preview-row">
+          <span class="chat-preview unread">Let's talk collab on the event</span>
+          <span class="chat-badge">1</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-item animate-fade" onclick="openChat('Ama Darko', 'https://i.pravatar.cc/52?img=44', 'Last seen 1h ago')">
+      <div class="chat-avatar-wrap">
+        <img src="https://i.pravatar.cc/52?img=44" class="chat-avatar" />
+      </div>
+      <div class="chat-info">
+        <div class="chat-name-row">
+          <span class="chat-name">Ama Darko ⚡</span>
+          <span class="chat-time">1h</span>
+        </div>
+        <div class="chat-preview-row">
+          <span class="chat-preview">Congrats on the platform launch! 🎉</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-item animate-fade" onclick="openChat('Felix Osei', 'https://i.pravatar.cc/52?img=55', 'Last seen 3h ago')">
+      <div class="chat-avatar-wrap">
+        <img src="https://i.pravatar.cc/52?img=55" class="chat-avatar" />
+      </div>
+      <div class="chat-info">
+        <div class="chat-name-row">
+          <span class="chat-name">Felix Osei</span>
+          <span class="chat-time">3h</span>
+        </div>
+        <div class="chat-preview-row">
+          <span class="chat-preview">You: Check the marketplace listing</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-item animate-fade" onclick="openChat('Elite Members Group', 'https://img.icons8.com/color/48/crown.png', '24 members online')">
+      <div class="chat-avatar-wrap">
+        <img src="https://img.icons8.com/color/96/crown.png" class="chat-avatar" style="border:2px solid #f59e0b;" />
+        <div class="chat-online" style="background:#f59e0b;"></div>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name-row">
+          <span class="chat-name">👑 Elite Members Group</span>
+          <span class="chat-time">5h</span>
+        </div>
+        <div class="chat-preview-row">
+          <span class="chat-preview">Derick: Welcome everyone! Let's build 🔥</span>
+          <span class="chat-badge" style="background:#f59e0b;">12</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Chat Window -->
+  <div id="chatWindow">
+    <div class="chat-win-header">
+      <button class="chat-win-back" onclick="closeChat()"><i class="fa fa-arrow-left"></i></button>
+      <img id="chatAvatar" src="" class="chat-win-avatar" />
+      <div class="chat-win-name">
+        <h4 id="chatName">Name</h4>
+        <p id="chatStatus">Online</p>
+      </div>
+      <div class="chat-win-actions">
+        <button><i class="fa fa-phone"></i></button>
+        <button><i class="fa fa-video"></i></button>
+        <button><i class="fa fa-ellipsis-v"></i></button>
+      </div>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg-bubble them">Hey Derick! Congrats on the platform launch 🎉<div class="msg-time">10:22 AM</div></div>
+      <div class="msg-bubble me">Thank you so much! Just getting started. Big things coming 🔥<div class="msg-time">10:24 AM</div></div>
+      <div class="msg-bubble them">Did you see the gold signal? We're already up 200 pips 📈<div class="msg-time">10:31 AM</div></div>
+      <div class="msg-bubble me">Yes! Closed half at TP1. Letting the rest run 💪<div class="msg-time">10:33 AM</div></div>
+    </div>
+    <div class="chat-input-bar">
+      <button style="background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;"><i class="fa fa-image"></i></button>
+      <input class="chat-input" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()" />
+      <button class="send-btn" onclick="sendMsg()"><i class="fa fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="../index.html" class="bn-item"><i class="fa fa-home"></i><span>Home</span></a>
+    <a href="feed.html" class="bn-item"><i class="fa fa-newspaper"></i><span>Feed</span></a>
+    <a href="feed.html" class="bn-item plus-btn"><i class="fa fa-plus"></i></a>
+    <a href="channels.html" class="bn-item"><i class="fa fa-chart-line"></i><span>Channels</span></a>
+    <a href="profile.html" class="bn-item"><i class="fa fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <script>
+    function openChat(name, avatar, status) {
+      document.getElementById('chatName').textContent = name;
+      document.getElementById('chatAvatar').src = avatar;
+      document.getElementById('chatStatus').textContent = status;
+      document.getElementById('chatWindow').classList.add('open');
+    }
+    function closeChat() {
+      document.getElementById('chatWindow').classList.remove('open');
+    }
+    function sendMsg() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      const msgs = document.getElementById('chatMessages');
+      const bubble = document.createElement('div');
+      bubble.className = 'msg-bubble me';
+      bubble.innerHTML = text + '<div class="msg-time">Just now</div>';
+      msgs.appendChild(bubble);
+      msgs.scrollTop = msgs.scrollHeight;
+      input.value = '';
+    }
+  </script>
+</body>
+</html>
